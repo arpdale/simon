@@ -10,17 +10,17 @@ module.exports = {
       colors: {
         // Sophisticated boutique palette inspired by luxury hotels
         primary: {
-          50: '#fdf8f3',
-          100: '#f9ede1',
-          200: '#f2d9c0',
-          300: '#e8be96',
-          400: '#dca16a',
-          500: '#d4934d',
-          600: '#c17a3a',
-          700: '#a0632f',
-          800: '#82512a',
-          900: '#6b4326',
-          950: '#3a2212',
+          50: '#f9f9fa',
+          100: '#f1f1f3',
+          200: '#e4e4e7',
+          300: '#d1d1d6',
+          400: '#b8b8c0',
+          500: '#9c9ca6',
+          600: '#7e7e88',
+          700: '#6a6a72',
+          800: '#5a5b60',
+          900: '#4a4b4f',
+          950: '#2f2f32',
         },
         secondary: {
           50: '#fdfcfb',

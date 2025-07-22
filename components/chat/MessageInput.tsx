@@ -86,7 +86,7 @@ export default function MessageInput({ onSendMessage, isLoading }: MessageInputP
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Share your desires with Simon..."
+              placeholder="How can Simon help?"
               className="w-full resize-none border border-neutral-300 rounded-2xl px-5 py-4 pr-14 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 max-h-32 bg-white shadow-sm transition-all duration-200"
               rows={1}
               disabled={isLoading}

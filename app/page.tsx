@@ -7,7 +7,7 @@ export default function QRLandingPage() {
         {/* Hotel Branding */}
         <div className="space-y-3">
           <h1 className="font-display text-4xl font-medium text-primary-800 tracking-tight">
-            Welcome to Anza Hotel
+            Welcome to the Anza Hotel
           </h1>
           <p className="font-serif text-lg text-secondary-700 italic">
             Calabasas, California
