@@ -2,6 +2,7 @@
 
 import { Message } from '@/lib/types'
 import { format } from 'date-fns'
+import WidgetContainer from '../widgets/WidgetContainer'
 
 interface MessageBubbleProps {
   message: Message
@@ -30,6 +31,13 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
           {format(message.timestamp, 'h:mm a')}
         </div>
       </div>
+      
+      {/* Render widgets for assistant messages */}
+      {!isUser && message.widgets && (
+        <div className="mt-3">
+          <WidgetContainer widgets={message.widgets} />
+        </div>
+      )}
     </div>
   )
 }

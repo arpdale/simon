@@ -5,6 +5,8 @@ import { Message } from '@/lib/types'
 import MessageBubble from './MessageBubble'
 import MessageInput from './MessageInput'
 import TypingIndicator from './TypingIndicator'
+import WidgetContainer from '../widgets/WidgetContainer'
+import { detectAndParseWidgets } from '@/lib/widget-utils'
 
 export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([])
@@ -80,12 +82,16 @@ export default function ChatInterface() {
           if (line.startsWith('data: ')) {
             const data = line.slice(6)
             if (data === '[DONE]') {
+              // Parse widgets from final content
+              const { cleanContent, widgets } = detectAndParseWidgets(assistantContent)
+              
               // Finalize the assistant message
               const assistantMessage: Message = {
                 id: (Date.now() + 1).toString(),
                 role: 'assistant',
-                content: assistantContent,
+                content: cleanContent,
                 timestamp: new Date(),
+                widgets: widgets.length > 0 ? widgets : undefined,
               }
               setMessages(prev => [...prev, assistantMessage])
               setCurrentResponse('')
