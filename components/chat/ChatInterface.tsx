@@ -52,7 +52,7 @@ export default function ChatInterface() {
         content: msg.content
       }))
 
-      const response = await fetch('/api/chat/mock', {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

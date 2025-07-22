@@ -1,30 +1,24 @@
 import Anthropic from '@anthropic-ai/sdk'
-import { SIMON_PERSONALITY } from '@/lib/ai-prompts'
-import { locationContext } from '@/lib/mock-data'
-
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY!,
-})
 
 export async function POST(req: Request) {
   try {
-    const { messages } = await req.json()
+    const body = await req.text()
+    const { messages } = JSON.parse(body)
     
-    // Build system prompt with Simon's personality and context
-    const systemPrompt = `${SIMON_PERSONALITY}
-
-LOCATION CONTEXT:
-You are the concierge for ${locationContext.hotel.name} located at ${locationContext.hotel.address}. 
-You serve ${locationContext.targetAudience} seeking ${locationContext.priceRange} experiences.
-Your recommendations should focus on: ${locationContext.localAreas.join(', ')}.
-Search within a ${locationContext.searchRadius}-mile radius of the hotel.
-
-CURRENT CONVERSATION:
-Respond naturally as Simon. If the guest asks about restaurants, attractions, or hotel services, include the appropriate widget trigger in your response.`
+    if (!process.env.ANTHROPIC_API_KEY) {
+      throw new Error('ANTHROPIC_API_KEY not configured')
+    }
+    
+    const anthropic = new Anthropic({
+      apiKey: process.env.ANTHROPIC_API_KEY,
+    })
+    
+    // Simplified system prompt for now
+    const systemPrompt = `You are Simon, a friendly AI concierge for the Anza Hotel in Calabasas, California. You help guests with local recommendations around Calabasas and Malibu area. Be warm, enthusiastic, and helpful.`
 
     const stream = await anthropic.messages.create({
       model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 1000,
+      max_tokens: 500,
       system: systemPrompt,
       messages: messages.map((msg: any) => ({
         role: msg.role,
@@ -65,7 +59,7 @@ Respond naturally as Simon. If the guest asks about restaurants, attractions, or
   } catch (error) {
     console.error('Chat API error:', error)
     return Response.json(
-      { error: 'Failed to process chat request' },
+      { error: error instanceof Error ? error.message : 'Failed to process chat request' },
       { status: 500 }
     )
   }
