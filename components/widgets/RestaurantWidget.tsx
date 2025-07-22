@@ -23,52 +23,52 @@ export default function RestaurantWidget({ data }: RestaurantWidgetProps) {
   const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant | null>(null)
 
   return (
-    <div className="space-y-3">
-      <div className="text-sm font-medium text-gray-700 flex items-center">
-        <span className="mr-2">🍽️</span>
-        Restaurant Recommendations
+    <div className="space-y-4">
+      <div className="font-display text-base font-medium text-neutral-800 flex items-center">
+        <span className="mr-3 text-lg">🍽️</span>
+        Curated Dining
       </div>
       
-      <div className="space-y-2">
+      <div className="space-y-3">
         {data.restaurants.map((restaurant, index) => (
           <motion.div
             key={restaurant.name}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="widget-card cursor-pointer hover:shadow-md transition-shadow"
+            className="widget-card cursor-pointer hover:shadow-lg hover:border-primary-300 transition-all duration-300 group"
             onClick={() => setSelectedRestaurant(restaurant)}
           >
-            <div className="flex space-x-3">
+            <div className="flex space-x-4">
               <img
                 src={restaurant.photos[0]}
                 alt={restaurant.name}
-                className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
+                className="w-18 h-18 rounded-xl object-cover flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform duration-300"
               />
               <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-gray-900 text-sm">
+                <h3 className="font-serif text-base font-medium text-neutral-900 tracking-wide mb-1">
                   {restaurant.name}
                 </h3>
-                <p className="text-xs text-gray-600 mb-1">
+                <p className="text-sm text-neutral-600 mb-2 font-medium">
                   {restaurant.cuisine} • {restaurant.priceRange} • {restaurant.distance}
                 </p>
-                <div className="flex items-center space-x-2 mb-1">
+                <div className="flex items-center space-x-2 mb-2">
                   <div className="flex items-center">
-                    <span className="text-yellow-400 text-sm">⭐</span>
-                    <span className="text-xs text-gray-600 ml-1">{restaurant.rating}</span>
+                    <span className="text-accent-500 text-base">★</span>
+                    <span className="text-sm text-neutral-700 ml-1 font-medium">{restaurant.rating}</span>
                   </div>
                 </div>
-                <p className="text-xs text-gray-700 line-clamp-2">
+                <p className="text-sm text-neutral-700 line-clamp-2 leading-relaxed">
                   {restaurant.description}
                 </p>
               </div>
             </div>
             
-            <div className="flex space-x-2 mt-3">
-              <button className="flex-1 bg-primary-500 text-white text-xs py-2 px-3 rounded-lg font-medium">
-                Book Table
+            <div className="flex space-x-3 mt-4">
+              <button className="flex-1 luxury-button text-sm py-2 px-4">
+                Reserve Table
               </button>
-              <button className="flex-1 border border-gray-300 text-gray-700 text-xs py-2 px-3 rounded-lg font-medium">
+              <button className="flex-1 border border-neutral-300 text-neutral-700 text-sm py-2 px-4 font-medium hover:border-neutral-400 hover:bg-neutral-50 transition-all duration-200">
                 View Menu
               </button>
             </div>
@@ -89,17 +89,17 @@ export default function RestaurantWidget({ data }: RestaurantWidgetProps) {
               initial={{ y: '100%' }}
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
-              className="bg-white rounded-t-xl max-w-md w-full max-h-[80vh] overflow-y-auto"
+              className="bg-neutral-50 rounded-t-2xl max-w-md w-full max-h-[80vh] overflow-y-auto shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="p-4">
-                <div className="flex justify-between items-start mb-4">
-                  <h2 className="text-lg font-bold text-gray-900">
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-6">
+                  <h2 className="font-display text-2xl font-medium text-neutral-900 tracking-wide">
                     {selectedRestaurant.name}
                   </h2>
                   <button
                     onClick={() => setSelectedRestaurant(null)}
-                    className="text-gray-400 hover:text-gray-600"
+                    className="text-neutral-400 hover:text-neutral-600 text-xl w-8 h-8 flex items-center justify-center"
                   >
                     ✕
                   </button>
@@ -108,35 +108,36 @@ export default function RestaurantWidget({ data }: RestaurantWidgetProps) {
                 <img
                   src={selectedRestaurant.photos[0]}
                   alt={selectedRestaurant.name}
-                  className="w-full h-48 rounded-lg object-cover mb-4"
+                  className="w-full h-56 rounded-2xl object-cover mb-6 shadow-lg"
                 />
                 
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">
+                    <span className="text-neutral-600 font-medium">
                       {selectedRestaurant.cuisine} • {selectedRestaurant.priceRange}
                     </span>
                     <div className="flex items-center">
-                      <span className="text-yellow-400">⭐</span>
-                      <span className="text-sm text-gray-600 ml-1">
+                      <span className="text-accent-500 text-lg">★</span>
+                      <span className="text-neutral-700 ml-1 font-medium">
                         {selectedRestaurant.rating}
                       </span>
                     </div>
                   </div>
                   
-                  <p className="text-sm text-gray-700">
+                  <p className="text-neutral-700 leading-relaxed">
                     {selectedRestaurant.description}
                   </p>
                   
-                  <div className="text-sm text-gray-600">
-                    📍 {selectedRestaurant.distance} from hotel
+                  <div className="text-neutral-600 font-medium flex items-center">
+                    <span className="mr-2">📍</span>
+                    {selectedRestaurant.distance} from hotel
                   </div>
                   
-                  <div className="flex space-x-3 pt-4">
-                    <button className="flex-1 bg-primary-500 text-white py-3 rounded-lg font-semibold">
+                  <div className="flex space-x-4 pt-6">
+                    <button className="flex-1 luxury-button py-3 text-base">
                       Make Reservation
                     </button>
-                    <button className="flex-1 border border-gray-300 text-gray-700 py-3 rounded-lg font-semibold">
+                    <button className="flex-1 border border-neutral-300 text-neutral-700 py-3 font-medium hover:border-neutral-400 hover:bg-white transition-all duration-200">
                       Call Restaurant
                     </button>
                   </div>

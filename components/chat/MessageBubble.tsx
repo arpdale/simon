@@ -15,19 +15,19 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-4`}>
       <div className={`chat-bubble ${isUser ? 'chat-bubble-user' : 'chat-bubble-ai'}`}>
         {!isUser && (
-          <div className="flex items-center space-x-2 mb-2">
-            <div className="w-6 h-6 bg-primary-500 rounded-full flex items-center justify-center">
-              <span className="text-sm">🤖</span>
+          <div className="flex items-center space-x-3 mb-3">
+            <div className="w-7 h-7 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center shadow-sm">
+              <span className="text-sm">🤵</span>
             </div>
-            <span className="text-sm font-medium text-gray-700">Simon</span>
+            <span className="text-sm font-medium text-neutral-800 tracking-wide">Simon</span>
           </div>
         )}
         
-        <p className="text-sm leading-relaxed whitespace-pre-wrap">
+        <p className="leading-relaxed whitespace-pre-wrap">
           {message.content}
         </p>
         
-        <div className={`text-xs mt-2 opacity-70 ${isUser ? 'text-white' : 'text-gray-500'}`}>
+        <div className={`text-xs mt-3 ${isUser ? 'text-neutral-200' : 'text-neutral-500'} font-medium tracking-wide`}>
           {format(message.timestamp, 'h:mm a')}
         </div>
       </div>

@@ -77,17 +77,17 @@ export default function MessageInput({ onSendMessage, isLoading }: MessageInputP
 
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
+    <div className="fixed bottom-0 left-0 right-0 bg-neutral-50 border-t border-neutral-200 p-6 backdrop-blur-sm">
       <div className="max-w-md mx-auto">
-        <form onSubmit={handleSubmit} className="flex items-end space-x-3">
+        <form onSubmit={handleSubmit} className="flex items-end space-x-4">
           <div className="flex-1 relative">
             <textarea
               ref={textareaRef}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Ask Simon anything..."
-              className="w-full resize-none border border-gray-300 rounded-xl px-4 py-3 pr-12 focus:outline-none focus:border-primary-500 max-h-32"
+              placeholder="Share your desires with Simon..."
+              className="w-full resize-none border border-neutral-300 rounded-2xl px-5 py-4 pr-14 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 max-h-32 bg-white shadow-sm transition-all duration-200"
               rows={1}
               disabled={isLoading}
             />
@@ -95,10 +95,10 @@ export default function MessageInput({ onSendMessage, isLoading }: MessageInputP
               <button
                 type="button"
                 onClick={toggleVoiceInput}
-                className={`absolute right-3 bottom-3 w-6 h-6 rounded-full flex items-center justify-center transition-colors ${
+                className={`absolute right-4 bottom-4 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 ${
                   isListening 
-                    ? 'bg-red-500 text-white animate-pulse' 
-                    : 'bg-gray-200 hover:bg-gray-300 text-gray-600'
+                    ? 'bg-accent-500 text-white animate-pulse shadow-lg' 
+                    : 'bg-neutral-200 hover:bg-neutral-300 text-neutral-600 hover:shadow-sm'
                 }`}
                 disabled={isLoading}
               >
@@ -110,15 +110,15 @@ export default function MessageInput({ onSendMessage, isLoading }: MessageInputP
           <button
             type="submit"
             disabled={!message.trim() || isLoading}
-            className="bg-primary-500 hover:bg-primary-600 disabled:bg-gray-300 text-white px-6 py-3 rounded-xl font-semibold touch-target transition-colors"
+            className="luxury-button disabled:opacity-50 disabled:cursor-not-allowed px-8 py-3 text-base font-medium"
           >
-            {isLoading ? '...' : 'Send'}
+            {isLoading ? 'Sending...' : 'Send'}
           </button>
         </form>
         
         {isListening && (
-          <div className="text-center mt-2 text-sm text-gray-600">
-            Listening... Tap the mic to stop
+          <div className="text-center mt-3 text-sm text-neutral-600 font-medium">
+            Listening attentively... Tap the microphone to finish
           </div>
         )}
       </div>
