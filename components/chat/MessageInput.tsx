@@ -10,6 +10,7 @@ interface MessageInputProps {
 export default function MessageInput({ onSendMessage, isLoading }: MessageInputProps) {
   const [message, setMessage] = useState('')
   const [isListening, setIsListening] = useState(false)
+  const [canUseVoice, setCanUseVoice] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const recognitionRef = useRef<any>(null)
 
@@ -24,6 +25,7 @@ export default function MessageInput({ onSendMessage, isLoading }: MessageInputP
   // Initialize speech recognition
   useEffect(() => {
     if (typeof window !== 'undefined' && 'webkitSpeechRecognition' in window) {
+      setCanUseVoice(true)
       const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition
       recognitionRef.current = new SpeechRecognition()
       recognitionRef.current.continuous = false
@@ -73,7 +75,6 @@ export default function MessageInput({ onSendMessage, isLoading }: MessageInputP
     }
   }
 
-  const canUseVoice = typeof window !== 'undefined' && 'webkitSpeechRecognition' in window
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
