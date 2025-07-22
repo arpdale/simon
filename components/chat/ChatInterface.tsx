@@ -130,9 +130,11 @@ export default function ChatInterface() {
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-sm border-b border-neutral-200 p-6 flex-shrink-0 shadow-sm">
         <div className="flex items-center space-x-4 max-w-md mx-auto">
-          <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center shadow-md">
-            <span className="text-xl">🤵</span>
-          </div>
+          <img 
+            src="/logos/bowtie-logo.svg" 
+            alt="Simon" 
+            className="w-12 h-12"
+          />
           <div>
             <h1 className="font-display text-xl font-medium text-neutral-900 tracking-wide">Simon</h1>
             <p className="text-sm text-neutral-600 font-medium">Your dedicated concierge</p>
@@ -154,9 +156,11 @@ export default function ChatInterface() {
                 <div className="flex justify-start mb-6">
                   <div className="chat-bubble chat-bubble-ai">
                     <div className="flex items-center space-x-3 mb-3">
-                      <div className="w-7 h-7 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center shadow-sm">
-                        <span className="text-sm">🤵</span>
-                      </div>
+                      <img 
+                        src="/logos/bowtie-logo.svg" 
+                        alt="Simon" 
+                        className="w-7 h-7"
+                      />
                       <span className="text-sm font-medium text-neutral-800 tracking-wide">Simon</span>
                     </div>
                     <p className="leading-relaxed whitespace-pre-wrap">

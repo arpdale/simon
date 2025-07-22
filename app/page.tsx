@@ -16,17 +16,18 @@ export default function QRLandingPage() {
 
         {/* Simon Introduction */}
         <div className="widget-card space-y-6 px-8 py-8">
-          <div className="w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full mx-auto flex items-center justify-center shadow-lg">
-            <span className="text-3xl">🤵</span>
-          </div>
+          <img 
+            src="/logos/bowtie-logo.svg" 
+            alt="Simon" 
+            className="w-20 h-20 mx-auto"
+          />
           
           <div className="space-y-3">
             <h2 className="font-display text-2xl font-medium text-neutral-900">
               Meet Simon
             </h2>
             <p className="text-neutral-700 leading-relaxed">
-              Your personal AI concierge for the finest local recommendations, 
-              exclusive hotel services, and curated experiences throughout Calabasas.
+              Your personal AI concierge for the finest local recommendations, curated experiences, and exclusive hotel services while you stay at the Anza Hotel.
             </p>
           </div>
         </div>
