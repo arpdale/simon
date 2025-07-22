@@ -1,5 +1,6 @@
 import { WidgetData } from './types'
 import { hotelAmenities } from './mock-data'
+import { parseClaudeRecommendations } from './recommendation-parser'
 
 export function detectAndParseWidgets(content: string): {
   cleanContent: string
@@ -42,13 +43,19 @@ export function detectAndParseWidgets(content: string): {
 }
 
 function generateRestaurantData(content: string) {
-  // Extract restaurant context from the message
+  // First try to parse actual recommendations from Claude's response
+  const { restaurants: parsedRestaurants } = parseClaudeRecommendations(content)
+  
+  if (parsedRestaurants.length > 0) {
+    return { restaurants: parsedRestaurants }
+  }
+  
+  // Fallback to mock data if no specific recommendations found
   const isRomantic = content.toLowerCase().includes('romantic') || content.toLowerCase().includes('couples')
   const isUpscale = content.toLowerCase().includes('upscale') || content.toLowerCase().includes('fine')
   const isItalian = content.toLowerCase().includes('italian')
   const isMexican = content.toLowerCase().includes('mexican') || content.toLowerCase().includes('tacos')
 
-  // Mock restaurant data based on context
   const restaurants = [
     {
       name: 'Nobu Malibu',
