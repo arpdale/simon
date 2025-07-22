@@ -2,31 +2,32 @@ import Link from 'next/link'
 
 export default function QRLandingPage() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gradient-to-br from-primary-50 to-secondary-50">
-      <div className="max-w-md w-full text-center space-y-8">
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 luxury-gradient">
+      <div className="max-w-md w-full text-center space-y-10">
         {/* Hotel Branding */}
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold text-primary-800">
+        <div className="space-y-3">
+          <h1 className="font-display text-4xl font-medium text-primary-800 tracking-tight">
             Welcome to Anza Hotel
           </h1>
-          <p className="text-secondary-600">
+          <p className="font-serif text-lg text-secondary-700 italic">
             Calabasas, California
           </p>
         </div>
 
         {/* Simon Introduction */}
-        <div className="widget-card space-y-4">
-          <div className="w-16 h-16 bg-primary-500 rounded-full mx-auto flex items-center justify-center">
-            <span className="text-2xl">🤖</span>
-          </div>
+        <div className="widget-card space-y-6 px-8 py-8">
+          <img 
+            src="/logos/bowtie-logo.svg" 
+            alt="Simon" 
+            className="w-20 h-20 mx-auto"
+          />
           
-          <div>
-            <h2 className="text-xl font-semibold text-gray-900">
+          <div className="space-y-3">
+            <h2 className="font-display text-2xl font-medium text-neutral-900">
               Meet Simon
             </h2>
-            <p className="text-gray-600 mt-2">
-              Your personal AI concierge for the best local recommendations, 
-              hotel services, and exclusive experiences around Calabasas.
+            <p className="text-neutral-700 leading-relaxed">
+              Your personal AI concierge for the finest local recommendations, curated experiences, and exclusive hotel services while you stay at the Anza Hotel.
             </p>
           </div>
         </div>
@@ -34,24 +35,24 @@ export default function QRLandingPage() {
         {/* CTA Button */}
         <Link 
           href="/chat"
-          className="block w-full bg-primary-500 hover:bg-primary-600 text-white font-semibold py-4 px-6 rounded-xl transition-colors touch-target"
+          className="luxury-button block w-full text-center font-medium py-3 text-lg tracking-wide"
         >
-          Start Chatting with Simon
+          Begin Your Experience
         </Link>
 
         {/* Quick Access */}
-        <div className="grid grid-cols-3 gap-3 text-sm">
-          <button className="p-3 bg-white rounded-lg border border-gray-200 hover:border-primary-300 transition-colors">
-            <div className="text-lg mb-1">🍽️</div>
-            Restaurants
+        <div className="grid grid-cols-3 gap-4 text-sm">
+          <button className="p-4 bg-neutral-50 border border-neutral-200 hover:border-primary-300 hover:bg-neutral-100 transition-all duration-300 group">
+            <div className="text-xl mb-2 group-hover:scale-110 transition-transform">🍽️</div>
+            <span className="font-medium text-neutral-800">Dining</span>
           </button>
-          <button className="p-3 bg-white rounded-lg border border-gray-200 hover:border-primary-300 transition-colors">
-            <div className="text-lg mb-1">🏖️</div>
-            Attractions
+          <button className="p-4 bg-neutral-50 border border-neutral-200 hover:border-primary-300 hover:bg-neutral-100 transition-all duration-300 group">
+            <div className="text-xl mb-2 group-hover:scale-110 transition-transform">🎭</div>
+            <span className="font-medium text-neutral-800">Culture</span>
           </button>
-          <button className="p-3 bg-white rounded-lg border border-gray-200 hover:border-primary-300 transition-colors">
-            <div className="text-lg mb-1">🏨</div>
-            Hotel Info
+          <button className="p-4 bg-neutral-50 border border-neutral-200 hover:border-primary-300 hover:bg-neutral-100 transition-all duration-300 group">
+            <div className="text-xl mb-2 group-hover:scale-110 transition-transform">🏨</div>
+            <span className="font-medium text-neutral-800">Services</span>
           </button>
         </div>
       </div>

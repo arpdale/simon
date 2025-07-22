@@ -126,23 +126,25 @@ export default function ChatInterface() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50">
+    <div className="flex flex-col h-screen luxury-gradient">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 p-4 flex-shrink-0">
-        <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center">
-            <span className="text-lg">🤖</span>
-          </div>
+      <div className="bg-white/80 backdrop-blur-sm border-b border-neutral-200 p-6 flex-shrink-0 shadow-sm">
+        <div className="flex items-center space-x-4 max-w-md mx-auto">
+          <img 
+            src="/logos/bowtie-logo.svg" 
+            alt="Simon" 
+            className="w-12 h-12"
+          />
           <div>
-            <h1 className="font-semibold text-gray-900">Simon</h1>
-            <p className="text-sm text-gray-600">Your Anza concierge</p>
+            <h1 className="font-display text-xl font-medium text-neutral-900 tracking-wide">Simon</h1>
+            <p className="text-sm text-neutral-600 font-medium">Your dedicated concierge</p>
           </div>
         </div>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 pb-24">
-        <div className="max-w-md mx-auto space-y-4">
+      <div className="flex-1 overflow-y-auto p-6 pb-32">
+        <div className="max-w-md mx-auto space-y-6">
           {messages.map((message) => (
             <MessageBubble key={message.id} message={message} />
           ))}
@@ -151,17 +153,19 @@ export default function ChatInterface() {
             <>
               <TypingIndicator />
               {currentResponse && (
-                <div className="flex justify-start mb-4">
+                <div className="flex justify-start mb-6">
                   <div className="chat-bubble chat-bubble-ai">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <div className="w-6 h-6 bg-primary-500 rounded-full flex items-center justify-center">
-                        <span className="text-sm">🤖</span>
-                      </div>
-                      <span className="text-sm font-medium text-gray-700">Simon</span>
+                    <div className="flex items-center space-x-3 mb-3">
+                      <img 
+                        src="/logos/bowtie-logo.svg" 
+                        alt="Simon" 
+                        className="w-7 h-7"
+                      />
+                      <span className="text-sm font-medium text-neutral-800 tracking-wide">Simon</span>
                     </div>
-                    <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                    <p className="leading-relaxed whitespace-pre-wrap">
                       {currentResponse}
-                      <span className="inline-block w-2 h-5 bg-gray-400 ml-1 animate-pulse" />
+                      <span className="inline-block w-0.5 h-5 bg-primary-500 ml-1 animate-pulse" />
                     </p>
                   </div>
                 </div>
