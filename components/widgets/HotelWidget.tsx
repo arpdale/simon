@@ -17,9 +17,10 @@ interface HotelWidgetProps {
   data: {
     amenities: Amenity[]
   }
+  isCarousel?: boolean
 }
 
-export default function HotelWidget({ data }: HotelWidgetProps) {
+export default function HotelWidget({ data, isCarousel = false }: HotelWidgetProps) {
   const [selectedAmenity, setSelectedAmenity] = useState<Amenity | null>(null)
   const [bookingStep, setBookingStep] = useState<'select' | 'booking'>('select')
 
@@ -32,19 +33,21 @@ export default function HotelWidget({ data }: HotelWidgetProps) {
 
   return (
     <div className="space-y-3">
-      <div className="text-sm font-medium text-gray-700 flex items-center">
-        <span className="mr-2">🏨</span>
-        Hotel Amenities
-      </div>
+      {!isCarousel && (
+        <div className="text-sm font-medium text-gray-700 flex items-center">
+          <span className="mr-2">🏨</span>
+          Hotel Amenities
+        </div>
+      )}
       
-      <div className="space-y-2">
+      <div className={isCarousel ? "" : "space-y-2"}>
         {data.amenities.map((amenity, index) => (
           <motion.div
             key={amenity.id}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="widget-card"
+            className={`widget-card ${isCarousel ? 'h-full' : ''}`}
           >
             <div className="flex items-center space-x-3">
               <div className="text-2xl">{amenity.icon}</div>

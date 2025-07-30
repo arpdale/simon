@@ -7,10 +7,10 @@ export default function QRLandingPage() {
         {/* Hotel Branding */}
         <div className="space-y-3">
           <h1 className="font-display text-4xl font-medium text-primary-800 tracking-tight">
-            Welcome to the Anza Hotel
+            Welcome to the Renaissance Los Angeles Airport Hotel
           </h1>
           <p className="font-serif text-lg text-secondary-700 italic">
-            Calabasas, California
+            Los Angeles, California
           </p>
         </div>
 
@@ -27,7 +27,7 @@ export default function QRLandingPage() {
               Meet Simon
             </h2>
             <p className="text-neutral-700 leading-relaxed">
-              Your personal AI concierge for the finest local recommendations, curated experiences, and exclusive hotel services while you stay at the Anza Hotel.
+              Your personal AI concierge for the finest local recommendations, curated experiences, and exclusive hotel services while you stay at the Renaissance Los Angeles Airport Hotel.
             </p>
           </div>
         </div>

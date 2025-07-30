@@ -58,7 +58,7 @@ function generateRestaurantData(content: string) {
 
   const restaurants = [
     {
-      name: 'Nobu Malibu',
+      name: 'Nobu Santa Monica',
       cuisine: 'Japanese',
       rating: 4.6,
       priceRange: '$$$',
@@ -121,7 +121,7 @@ function generateAttractionData(content: string) {
       highlight: isArt
     },
     {
-      name: 'Malibu Wine Safaris',
+      name: 'Santa Monica Wine Safaris',
       category: 'Winery',
       rating: 4.5,
       distance: '15 miles',

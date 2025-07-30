@@ -13,7 +13,7 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
   
   return (
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-4`}>
-      <div className={`chat-bubble ${isUser ? 'chat-bubble-user' : 'chat-bubble-ai'}`}>
+      <div className={`chat-bubble ${isUser ? 'chat-bubble-user' : 'chat-bubble-ai'} ${!isUser && message.widgets ? 'max-w-2xl' : ''}`}>
         {!isUser && (
           <div className="flex items-center space-x-3 mb-3">
             <img 
@@ -29,17 +29,17 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
           {message.content}
         </p>
         
+        {/* Render widgets inside the message bubble */}
+        {!isUser && message.widgets && (
+          <div className="mt-4 -mx-4 px-8">
+            <WidgetContainer widgets={message.widgets} />
+          </div>
+        )}
+        
         <div className={`text-xs mt-3 ${isUser ? 'text-neutral-200' : 'text-neutral-500'} font-medium tracking-wide`}>
           {format(message.timestamp, 'h:mm a')}
         </div>
       </div>
-      
-      {/* Render widgets for assistant messages */}
-      {!isUser && message.widgets && (
-        <div className="mt-3">
-          <WidgetContainer widgets={message.widgets} />
-        </div>
-      )}
     </div>
   )
 }
