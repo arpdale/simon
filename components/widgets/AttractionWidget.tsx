@@ -17,9 +17,10 @@ interface AttractionWidgetProps {
   data: {
     attractions: Attraction[]
   }
+  isCarousel?: boolean
 }
 
-export default function AttractionWidget({ data }: AttractionWidgetProps) {
+export default function AttractionWidget({ data, isCarousel = false }: AttractionWidgetProps) {
   const [selectedAttraction, setSelectedAttraction] = useState<Attraction | null>(null)
 
   const getCategoryIcon = (category: string) => {
@@ -35,19 +36,21 @@ export default function AttractionWidget({ data }: AttractionWidgetProps) {
 
   return (
     <div className="space-y-3">
-      <div className="text-sm font-medium text-gray-700 flex items-center">
-        <span className="mr-2">🗺️</span>
-        Local Attractions
-      </div>
+      {!isCarousel && (
+        <div className="text-sm font-medium text-gray-700 flex items-center">
+          <span className="mr-2">🗺️</span>
+          Local Attractions
+        </div>
+      )}
       
-      <div className="space-y-2">
+      <div className={isCarousel ? "" : "space-y-2"}>
         {data.attractions.map((attraction, index) => (
           <motion.div
             key={attraction.name}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="widget-card cursor-pointer hover:shadow-md transition-shadow"
+            className={`widget-card cursor-pointer hover:shadow-md transition-shadow ${isCarousel ? 'h-full' : ''}`}
             onClick={() => setSelectedAttraction(attraction)}
           >
             <div className="flex space-x-3">

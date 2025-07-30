@@ -48,7 +48,7 @@ export const hotelAmenities = [
 
 export const sampleConversations = [
   "Find me a romantic restaurant for dinner tonight",
-  "What's the best wine tasting in Malibu?",
+  "What's the best wine tasting in Santa Monica?",
   "I'd like to book a couples massage",
   "Where can we watch the sunset?",
   "What time does the hotel gym open?",
@@ -59,8 +59,8 @@ export const sampleConversations = [
 
 export const locationContext = {
   hotel: {
-    name: 'Anza Hotel',
-    address: '23627 Calabasas Rd, Calabasas, CA 91302',
+    name: 'Renaissance Los Angeles Airport Hotel',
+    address: '23627 Los Angeles Rd, Los Angeles, CA 91302',
     lat: 34.1684,
     lng: -118.6615,
   },
@@ -68,8 +68,8 @@ export const locationContext = {
   targetAudience: 'couples',
   priceRange: 'mid-to-high-end',
   localAreas: [
-    'Calabasas',
-    'Malibu', 
+    'Los Angeles',
+    'Santa Monica', 
     'Topanga',
     'Agoura Hills',
     'Westlake Village'

@@ -4,16 +4,16 @@ export async function POST(req: Request) {
     const lastMessage = messages[messages.length - 1]?.content || ''
     
     // Mock Simon responses based on input
-    let mockResponse = "Hey! I'm Simon, your Anza Hotel concierge. "
+    let mockResponse = "Hey! I'm Simon, your Renaissance Los Angeles Airport Hotel concierge. "
     
     if (lastMessage.toLowerCase().includes('restaurant') || lastMessage.toLowerCase().includes('food') || lastMessage.toLowerCase().includes('eat')) {
-      mockResponse += "I know some amazing restaurants around Calabasas! For a romantic dinner, I'd recommend Nobu Malibu - the sunset views are incredible. Or if you want something more intimate, there's this fantastic farm-to-table place called SunCafe Organic in Studio City. What kind of cuisine are you in the mood for? [RESTAURANT_WIDGET]"
+      mockResponse += "I know some amazing restaurants around Los Angeles! For a romantic dinner, I'd recommend Nobu Santa Monica - the sunset views are incredible. Or if you want something more intimate, there's this fantastic farm-to-table place called SunCafe Organic in Studio City. What kind of cuisine are you in the mood for? [RESTAURANT_WIDGET]"
     } else if (lastMessage.toLowerCase().includes('attraction') || lastMessage.toLowerCase().includes('do') || lastMessage.toLowerCase().includes('see')) {
-      mockResponse += "There's so much to explore around here! You could visit the gorgeous El Matador Beach in Malibu - perfect for sunset photos. Or if you're into wine, there are some incredible wineries in the Santa Monica Mountains. What kind of activities interest you? [ATTRACTION_WIDGET]"
+      mockResponse += "There's so much to explore around here! You could visit the gorgeous El Matador Beach in Santa Monica - perfect for sunset photos. Or if you're into wine, there are some incredible wineries in the Santa Monica Mountains. What kind of activities interest you? [ATTRACTION_WIDGET]"
     } else if (lastMessage.toLowerCase().includes('hotel') || lastMessage.toLowerCase().includes('spa') || lastMessage.toLowerCase().includes('gym')) {
       mockResponse += "I'd love to help with our hotel amenities! Our spa offers amazing couples treatments, and the rooftop pool has stunning mountain views. The fitness center is open 24/7 if you want to squeeze in a workout. What can I book for you? [HOTEL_WIDGET]"
     } else {
-      mockResponse += "I know all the best spots around Calabasas and Malibu. Whether you're looking for amazing restaurants, beautiful attractions, or want to book hotel services, I'm here to help! What sounds interesting to you?"
+      mockResponse += "I know all the best spots around Los Angeles and Santa Monica. Whether you're looking for amazing restaurants, beautiful attractions, or want to book hotel services, I'm here to help! What sounds interesting to you?"
     }
 
     // Simulate streaming response

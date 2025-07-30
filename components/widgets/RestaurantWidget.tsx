@@ -17,26 +17,29 @@ interface RestaurantWidgetProps {
   data: {
     restaurants: Restaurant[]
   }
+  isCarousel?: boolean
 }
 
-export default function RestaurantWidget({ data }: RestaurantWidgetProps) {
+export default function RestaurantWidget({ data, isCarousel = false }: RestaurantWidgetProps) {
   const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant | null>(null)
 
   return (
     <div className="space-y-4">
-      <div className="font-display text-base font-medium text-neutral-800 flex items-center">
-        <span className="mr-3 text-lg">🍽️</span>
-        Curated Dining
-      </div>
+      {!isCarousel && (
+        <div className="font-display text-base font-medium text-neutral-800 flex items-center">
+          <span className="mr-3 text-lg">🍽️</span>
+          Curated Dining
+        </div>
+      )}
       
-      <div className="space-y-3">
+      <div className={isCarousel ? "" : "space-y-3"}>
         {data.restaurants.map((restaurant, index) => (
           <motion.div
             key={restaurant.name}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="widget-card cursor-pointer hover:shadow-lg hover:border-primary-300 transition-all duration-300 group"
+            className={`widget-card cursor-pointer hover:shadow-lg hover:border-primary-300 transition-all duration-300 group ${isCarousel ? 'h-full' : ''}`}
             onClick={() => setSelectedRestaurant(restaurant)}
           >
             <div className="flex space-x-4">

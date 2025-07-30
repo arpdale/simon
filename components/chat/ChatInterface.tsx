@@ -28,7 +28,7 @@ export default function ChatInterface() {
     const welcomeMessage: Message = {
       id: 'welcome',
       role: 'assistant',
-      content: "Hey there! 👋 I'm Simon, your personal concierge for the Anza Hotel. I know all the best spots around Calabasas and Malibu. What can I help you discover today?",
+      content: "Hey there! 👋 I'm Simon, your personal concierge for the Renaissance Los Angeles Airport Hotel. I know all the best spots around Los Angeles and Santa Monica. What can I help you discover today?",
       timestamp: new Date(),
     }
     setMessages([welcomeMessage])
@@ -144,7 +144,7 @@ export default function ChatInterface() {
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-6 pb-32">
-        <div className="max-w-md mx-auto space-y-6">
+        <div className="max-w-3xl mx-auto space-y-6">
           {messages.map((message) => (
             <MessageBubble key={message.id} message={message} />
           ))}

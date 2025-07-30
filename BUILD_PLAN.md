@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Build a mobile-first web app called "Simon" - an AI hotel concierge for the Anza Hotel in Calabasas, CA. Target audience: high-end couples seeking curated local experiences.
+Build a mobile-first web app called "Simon" - an AI hotel concierge for the Renaissance Los Angeles Airport Hotel in Los Angeles, CA. Target audience: high-end couples seeking curated local experiences.
 
 ## Phase 1: Foundation (Days 1-3)
 
@@ -44,7 +44,7 @@ Build a mobile-first web app called "Simon" - an AI hotel concierge for the Anza
 ## Phase 2: AI & Chat Interface (Days 4-6)
 
 ### 1. Simon's Personality
-- Friendly local guide who knows Calabasas/Malibu area
+- Friendly local guide who knows Los Angeles/Santa Monica area
 - Conversational style: "Hey! I know just the spot..."
 - Context awareness for couples' experiences
 - Natural widget triggering based on intent
@@ -64,7 +64,7 @@ Build a mobile-first web app called "Simon" - an AI hotel concierge for the Anza
 ## Phase 3: Widget System (Days 7-10)
 
 ### 1. Restaurant Widget
-- Google Places integration (20-mile radius from Anza Hotel)
+- Google Places integration (20-mile radius from Renaissance Los Angeles Airport Hotel)
 - Filters: cuisine type, price range, ambiance
 - Mock OpenTable booking flow
 - Photo carousel, ratings, reviews
@@ -72,13 +72,13 @@ Build a mobile-first web app called "Simon" - an AI hotel concierge for the Anza
 
 ### 2. Attraction Widget
 - Local wineries, beaches, hiking trails
-- Malibu attractions, Getty Villa, beaches
+- Santa Monica attractions, Getty Villa, beaches
 - Real-time hours and availability
 - Mock ticket booking
 - Distance/drive time from hotel
 
 ### 3. Hotel Amenity Widget
-- Anza Hotel specifics: spa, pool, restaurant
+- Renaissance Los Angeles Airport Hotel specifics: spa, pool, restaurant
 - Mock availability calendar
 - Fake booking confirmations
 - Room service menu integration
@@ -106,7 +106,7 @@ Build a mobile-first web app called "Simon" - an AI hotel concierge for the Anza
 
 ### 1. Demo Data
 - Curated list of best restaurants for couples
-- Romantic spots in Malibu/Calabasas
+- Romantic spots in Santa Monica/Los Angeles
 - Pre-scripted conversation flows
 - Edge case handling
 
@@ -157,4 +157,4 @@ Build a mobile-first web app called "Simon" - an AI hotel concierge for the Anza
 - Believable mock integrations
 - Clear value proposition demonstration
 
-## Ready to start building Simon for the Anza Hotel!
+## Ready to start building Simon for the Renaissance Los Angeles Airport Hotel!
