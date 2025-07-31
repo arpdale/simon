@@ -22,8 +22,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="min-h-screen bg-gray-50">
-          {children}
+        <div className="min-h-screen relative">
+          {/* Desktop background */}
+          <div 
+            className="fixed inset-0 hidden md:block bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: 'url(/images/ren-lax-bg.png)' }}
+          />
+          {/* Mobile background */}
+          <div 
+            className="fixed inset-0 md:hidden bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: 'url(/images/ren-lax-mobile.png)' }}
+          />
+          {/* Content overlay */}
+          <div className="relative z-10">
+            {children}
+          </div>
         </div>
       </body>
     </html>

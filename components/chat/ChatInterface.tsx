@@ -1,14 +1,18 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import { Message } from '@/lib/types'
 import MessageBubble from './MessageBubble'
 import MessageInput from './MessageInput'
 import TypingIndicator from './TypingIndicator'
+import QuickSuggestions from './QuickSuggestions'
+import WelcomeMessage from './WelcomeMessage'
 import WidgetContainer from '../widgets/WidgetContainer'
 import { detectAndParseWidgets } from '@/lib/widget-utils'
 
 export default function ChatInterface() {
+  const router = useRouter()
   const [messages, setMessages] = useState<Message[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [currentResponse, setCurrentResponse] = useState('')
@@ -23,18 +27,29 @@ export default function ChatInterface() {
     scrollToBottom()
   }, [messages, currentResponse, isLoading])
 
-  // Initialize with Simon's welcome message
-  useEffect(() => {
-    const welcomeMessage: Message = {
-      id: 'welcome',
-      role: 'assistant',
-      content: "Hey there! 👋 I'm Simon, your personal concierge for the Renaissance Los Angeles Airport Hotel. I know all the best spots around Los Angeles and Santa Monica. What can I help you discover today?",
-      timestamp: new Date(),
-    }
-    setMessages([welcomeMessage])
-  }, [])
+  // Initialize without welcome message to show quick suggestions
+  // useEffect(() => {
+  //   const welcomeMessage: Message = {
+  //     id: 'welcome',
+  //     role: 'assistant',
+  //     content: "Hey there! 👋 I'm Simon, your personal concierge for the Renaissance Los Angeles Airport Hotel. I know all the best spots around Los Angeles and Santa Monica. What can I help you discover today?",
+  //     timestamp: new Date(),
+  //   }
+  //   setMessages([welcomeMessage])
+  // }, [])
 
   const handleSendMessage = async (content: string) => {
+    // Check for specific navigation intents
+    const lowerContent = content.toLowerCase()
+    if (lowerContent.includes('in-room dining') || lowerContent.includes('room service') || lowerContent.includes('dining options')) {
+      router.push('/chat/category/in-room-dining')
+      return
+    }
+    if (lowerContent.includes('nearby attractions') || lowerContent.includes('what to do') || lowerContent.includes('attractions')) {
+      router.push('/chat/category/nearby-attractions')
+      return
+    }
+
     // Add user message
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -126,55 +141,51 @@ export default function ChatInterface() {
   }
 
   return (
-    <div className="flex flex-col h-screen luxury-gradient">
-      {/* Header */}
-      <div className="bg-white/80 backdrop-blur-sm border-b border-neutral-200 p-6 flex-shrink-0 shadow-sm">
-        <div className="flex items-center space-x-4 max-w-md mx-auto">
-          <img 
-            src="/logos/bowtie-logo.svg" 
-            alt="Simon" 
-            className="w-12 h-12"
-          />
-          <div>
-            <h1 className="font-display text-xl font-medium text-neutral-900 tracking-wide">Simon</h1>
-            <p className="text-sm text-neutral-600 font-medium">Your dedicated concierge</p>
-          </div>
-        </div>
-      </div>
-
+    <div className="flex flex-col h-screen max-h-[844px] mx-auto max-w-[390px] w-full">
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-6 pb-32">
-        <div className="max-w-3xl mx-auto space-y-6">
-          {messages.map((message) => (
-            <MessageBubble key={message.id} message={message} />
-          ))}
-          
-          {isLoading && (
-            <>
-              <TypingIndicator />
-              {currentResponse && (
-                <div className="flex justify-start mb-6">
-                  <div className="chat-bubble chat-bubble-ai">
-                    <div className="flex items-center space-x-3 mb-3">
-                      <img 
-                        src="/logos/bowtie-logo.svg" 
-                        alt="Simon" 
-                        className="w-7 h-7"
-                      />
-                      <span className="text-sm font-medium text-neutral-800 tracking-wide">Simon</span>
+      <div className="flex-1 bg-white mt-8 md:mt-12 rounded-t-3xl">
+        {messages.length === 0 ? (
+          <div className="flex items-center justify-center min-h-full p-6">
+            <div className="w-full max-w-md">
+              <WelcomeMessage />
+              <QuickSuggestions onSuggestionClick={handleSendMessage} />
+            </div>
+          </div>
+        ) : (
+          <div className="p-6">
+            <div className="max-w-3xl mx-auto space-y-6">
+              {messages.map((message) => (
+                <MessageBubble key={message.id} message={message} />
+              ))}
+              
+              {isLoading && (
+                <>
+                  <TypingIndicator />
+                  {currentResponse && (
+                    <div className="flex justify-start mb-6">
+                      <div className="chat-bubble chat-bubble-ai">
+                        <div className="flex items-center space-x-3 mb-3">
+                          <img 
+                            src="/logos/bowtie-logo.svg" 
+                            alt="Simon" 
+                            className="w-7 h-7"
+                          />
+                          <span className="text-sm font-medium text-neutral-800 tracking-wide">Simon</span>
+                        </div>
+                        <p className="leading-relaxed whitespace-pre-wrap">
+                          {currentResponse}
+                          <span className="inline-block w-0.5 h-5 bg-primary-500 ml-1 animate-pulse" />
+                        </p>
+                      </div>
                     </div>
-                    <p className="leading-relaxed whitespace-pre-wrap">
-                      {currentResponse}
-                      <span className="inline-block w-0.5 h-5 bg-primary-500 ml-1 animate-pulse" />
-                    </p>
-                  </div>
-                </div>
+                  )}
+                </>
               )}
-            </>
-          )}
-          
-          <div ref={messagesEndRef} />
-        </div>
+              
+              <div ref={messagesEndRef} />
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Input */}

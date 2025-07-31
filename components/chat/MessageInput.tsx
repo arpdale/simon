@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import { Mic, X, Send } from 'lucide-react'
+import VoiceRecordingOverlay from './VoiceRecordingOverlay'
 
 interface MessageInputProps {
   onSendMessage: (message: string) => void
@@ -11,16 +13,8 @@ export default function MessageInput({ onSendMessage, isLoading }: MessageInputP
   const [message, setMessage] = useState('')
   const [isListening, setIsListening] = useState(false)
   const [canUseVoice, setCanUseVoice] = useState(false)
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   const recognitionRef = useRef<any>(null)
-
-  // Auto-resize textarea
-  useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto'
-      textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px'
-    }
-  }, [message])
 
   // Initialize speech recognition
   useEffect(() => {
@@ -48,18 +42,22 @@ export default function MessageInput({ onSendMessage, isLoading }: MessageInputP
     }
   }, [])
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = (e?: React.FormEvent) => {
+    e?.preventDefault()
+    console.log('handleSubmit called with message:', message)
     if (message.trim() && !isLoading) {
+      console.log('Sending message:', message.trim())
       onSendMessage(message.trim())
       setMessage('')
+    } else {
+      console.log('Message not sent - empty message or loading:', { message: message.trim(), isLoading })
     }
   }
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey && message.trim()) {
       e.preventDefault()
-      handleSubmit(e)
+      handleSubmit()
     }
   }
 
@@ -72,56 +70,65 @@ export default function MessageInput({ onSendMessage, isLoading }: MessageInputP
     } else {
       recognitionRef.current.start()
       setIsListening(true)
+      setMessage('')
     }
   }
 
+  const stopRecording = () => {
+    if (recognitionRef.current && isListening) {
+      recognitionRef.current.stop()
+      setIsListening(false)
+    }
+  }
+
+  const clearMessage = () => {
+    setMessage('')
+    inputRef.current?.focus()
+  }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-neutral-50 border-t border-neutral-200 p-6 backdrop-blur-sm">
-      <div className="max-w-md mx-auto">
-        <form onSubmit={handleSubmit} className="flex items-end space-x-4">
-          <div className="flex-1 relative">
-            <textarea
-              ref={textareaRef}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="How can Simon help?"
-              className="w-full resize-none border border-neutral-300 rounded-2xl px-5 py-4 pr-14 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 max-h-32 bg-white shadow-sm transition-all duration-200"
-              rows={1}
+    <>
+      <div className="bg-white border-t border-gray-200">
+        <div className="p-4">
+          <div className="flex items-center bg-gray-100 rounded-full border border-gray-300 p-1">
+            {/* Left Simon logo (non-clickable) */}
+            <div>
+              <img 
+                src="/logos/chat-icon-simon.svg" 
+                alt="Simon" 
+                className="w-10 h-10"
+              />
+            </div>
+
+            {/* Text input - clickable area for text entry */}
+            <form onSubmit={handleSubmit} className="flex-1">
+              <input
+                ref={inputRef}
+                type="text"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Ask Simon anything"
+                className="w-full bg-transparent px-4 py-2 text-gray-900 placeholder-gray-400 focus:outline-none text-base"
+                disabled={isLoading || isListening}
+              />
+            </form>
+
+            {/* Right microphone button - always visible for voice recording */}
+            <button
+              type="button"
+              onClick={toggleVoiceInput}
               disabled={isLoading}
-            />
-            {canUseVoice && (
-              <button
-                type="button"
-                onClick={toggleVoiceInput}
-                className={`absolute right-4 bottom-4 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 ${
-                  isListening 
-                    ? 'bg-accent-500 text-white animate-pulse shadow-lg' 
-                    : 'bg-neutral-200 hover:bg-neutral-300 text-neutral-600 hover:shadow-sm'
-                }`}
-                disabled={isLoading}
-              >
-                <span className="text-sm">🎤</span>
-              </button>
-            )}
+              className="flex-shrink-0 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors border border-gray-300"
+            >
+              <Mic className="w-5 h-5 text-gray-600" />
+            </button>
           </div>
-          
-          <button
-            type="submit"
-            disabled={!message.trim() || isLoading}
-            className="luxury-button disabled:opacity-50 disabled:cursor-not-allowed px-8 py-3 text-base font-medium"
-          >
-            {isLoading ? 'Sending...' : 'Send'}
-          </button>
-        </form>
-        
-        {isListening && (
-          <div className="text-center mt-3 text-sm text-neutral-600 font-medium">
-            Listening attentively... Tap the microphone to finish
-          </div>
-        )}
+        </div>
       </div>
-    </div>
+
+      {/* Voice recording overlay */}
+      {isListening && <VoiceRecordingOverlay onStop={stopRecording} />}
+    </>
   )
 }
