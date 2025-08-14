@@ -1,39 +1,15 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { Message } from '@/lib/types'
 import MessageInput from '@/components/chat/MessageInput'
-import RestaurantCard from '@/components/cards/RestaurantCard'
-import AttractionCard from '@/components/cards/AttractionCard'
-import SlidePanel from '@/components/SlidePanel'
-import { ChevronLeft } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface Restaurant {
   id: string
   name: string
-  cuisine: string
   description: string
   image: string
-  rating: number
-  priceRange: string
-  distance: string
-  features: string[]
-  dishes: string[]
-  atmosphere: string[]
-  orderUrl?: string
-}
-
-interface Attraction {
-  id: string
-  name: string
-  type: string
-  description: string
-  image: string
-  rating: number
-  distance: string
-  features: string[]
-  directionsUrl: string
 }
 
 const categoryTitles: Record<string, string> = {
@@ -45,194 +21,164 @@ const restaurantData: Restaurant[] = [
   {
     id: 'nobu-malibu',
     name: 'Nobu Malibu',
-    cuisine: 'Japanese-Peruvian Fusion',
-    description: 'Incredible Japanese fusion with breathtaking oceanfront views. Perfect for special occasions.',
-    image: '/images/nobu-malibu.jpg',
-    rating: 4.8,
-    priceRange: '$$$$',
-    distance: '25 min',
-    features: ['Oceanfront dining', 'Celebrity hotspot', 'Sushi bar'],
-    dishes: ['Yellowtail Sashimi with Jalapeño', 'Black Cod Miso', "Nobu's most famous dish"],
-    atmosphere: ['Wagyu Beef Tacos', 'Mediterranean-style Live Sweet Shrimp and local Catch of the Day'],
-    orderUrl: '/order/nobu-malibu'
+    description: 'Incredible Japanese fusion with breathtaking oceanfront views. Perfect for special occasions. →',
+    image: '/images/nobu-oceanview.jpg'
   },
   {
     id: 'republique',
-    name: 'République',
-    cuisine: 'French',
-    description: 'Housed in a stunning historic building, offering French cuisine in a romantic atmosphere. Their pastries are legendary!',
-    image: '/images/republique.jpg',
-    rating: 4.7,
-    priceRange: '$$$',
-    distance: '15 min',
-    features: ['Historic building', 'Bakery', 'Brunch spot'],
-    dishes: [],
-    atmosphere: [],
-    orderUrl: '/order/republique'
+    name: 'Republique',
+    description: 'Housed in a stunning historic building, offering French cuisine in a romantic atmosphere. Their pastries are legendary! →',
+    image: '/images/republique-interior.jpg'
   },
   {
-    id: 'elephante',
-    name: 'Elephante',
-    cuisine: 'Mediterranean',
-    description: 'A beautiful rooftop restaurant in Santa Monica with Mediterranean cuisine and ocean views. Great for sunset dining.',
-    image: '/images/elephante.jpg',
-    rating: 4.6,
-    priceRange: '$$$',
-    distance: '20 min',
-    features: ['Rooftop dining', 'Ocean views', 'Sunset spot'],
-    dishes: [],
-    atmosphere: [],
-    orderUrl: '/order/elephante'
+    id: 'hiho-cheeseburger',
+    name: 'HiHo Cheeseburger',
+    description: 'Marina del Rey favorite serving pristine double wagyu cheeseburgers with New Zealand beef, alongside hand-cut fries and McConnell\'s shakes.',
+    image: '/images/hiho-burger.jpg'
   },
   {
     id: 'providence',
     name: 'Providence',
-    cuisine: 'Seafood',
-    description: "If you're looking for fine dining, this two Michelin-starred seafood restaurant offers an unforgettable experience.",
-    image: '/images/providence.jpg',
-    rating: 4.9,
-    priceRange: '$$$$',
-    distance: '18 min',
-    features: ['2 Michelin stars', 'Tasting menu', 'Wine pairing'],
-    dishes: [],
-    atmosphere: [],
-    orderUrl: '/order/providence'
+    description: 'If you\'re looking for fine dining, this two Michelin-starred seafood restaurant offers an unforgettable experience. →',
+    image: '/images/providence-dining.jpg'
+  },
+  {
+    id: 'catch-la',
+    name: 'Catch LA',
+    description: 'Trendy rooftop spot in West Hollywood with amazing city views and excellent seafood and sushi.',
+    image: '/images/catch-la-rooftop.jpg'
   }
 ]
 
-const attractionData: Attraction[] = [
-  {
-    id: 'manhattan-beach',
-    name: 'Manhattan Beach',
-    type: 'Beach',
-    description: 'Just 15 minutes away, offers quintessential California vibes with its gorgeous pier, surf scene, and charming downtown filled with local shops and eateries.',
-    image: '/images/manhattan-beach.jpg',
-    rating: 4.7,
-    distance: '15 min',
-    features: ['Surfing', 'Beach volleyball', 'Pier walk'],
-    directionsUrl: '/directions/manhattan-beach'
-  },
-  {
-    id: 'getty-center',
-    name: 'The Getty Center',
-    type: 'Museum',
-    description: 'sits like a crown above LA, where stunning architecture meets world-class art. Its gardens provide spectacular city views, and admission is free – just pay for parking.',
-    image: '/images/getty-center.jpg',
-    rating: 4.8,
-    distance: '25 min',
-    features: ['Free admission', 'Gardens', 'City views', 'Architecture'],
-    directionsUrl: '/directions/getty-center'
-  },
-  {
-    id: 'marina-del-rey',
-    name: 'Marina del Rey',
-    type: 'Harbor',
-    description: 'provides a peaceful escape with its luxury harbor views, waterfront dining, and relaxing walking paths – all just 15 minutes from our hotel.',
-    image: '/images/marina-del-rey.jpg',
-    rating: 4.5,
-    distance: '15 min',
-    features: ['Waterfront dining', 'Boat tours', 'Walking paths'],
-    directionsUrl: '/directions/marina-del-rey'
-  }
+const carouselImages = [
+  { id: 1, src: '/images/nobu-oceanview.jpg', alt: 'Nobu Malibu oceanfront dining' },
+  { id: 2, src: '/images/republique-interior.jpg', alt: 'République historic interior' },
 ]
 
 export default function CategoryChatPage() {
   const params = useParams()
   const router = useRouter()
   const category = params.category as string
-  const [selectedItem, setSelectedItem] = useState<Restaurant | Attraction | null>(null)
-  const [isPanelOpen, setIsPanelOpen] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const carouselRef = useRef<HTMLDivElement>(null)
 
   const title = categoryTitles[category] || 'Chat'
   const isInRoomDining = category === 'in-room-dining'
-  const isNearbyAttractions = category === 'nearby-attractions'
-
-  const introMessage = isInRoomDining 
-    ? "Steve, I'm happy to help you!\n\nThe Renaissance Hotel has partnered with some great local restaurants to provide you in-room dining"
-    : "Steve, I'm happy to help you!\n\nThe Renaissance Hotel has partnered with some great local attractions to provide you information"
-
-  const handleItemClick = (item: Restaurant | Attraction) => {
-    setSelectedItem(item)
-    setIsPanelOpen(true)
-  }
 
   const handleSendMessage = async (content: string) => {
     // Handle message sending if needed
+    console.log('Message sent:', content)
+  }
+
+  const scrollCarousel = (direction: 'left' | 'right') => {
+    if (direction === 'left') {
+      setCurrentImageIndex((prev) => (prev === 0 ? carouselImages.length - 1 : prev - 1))
+    } else {
+      setCurrentImageIndex((prev) => (prev === carouselImages.length - 1 ? 0 : prev + 1))
+    }
   }
 
   return (
-    <div className="flex flex-col h-screen">
-      {/* Header */}
-      <div className="bg-white/90 backdrop-blur-sm border-b border-gray-200 px-4 py-3 flex items-center">
-        <button
-          onClick={() => router.back()}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
-        <div className="flex-1 flex items-center justify-center gap-3">
-          <div className="w-8 h-8 bg-gray-900 rounded-full flex items-center justify-center">
-            <img src="/logos/logo-black-bg.svg" alt="Simon" className="w-8 h-8" />
+    <div className="flex flex-col h-screen max-h-[844px] mx-auto max-w-[390px] w-full">
+      {/* Content container with rounded corners and margin from top */}
+      <div className="flex-1 bg-white mt-8 md:mt-12 rounded-t-3xl flex flex-col">
+        {/* Header */}
+        <div className="flex items-center px-4 py-3 border-b border-gray-200">
+          <button
+            onClick={() => router.push('/')}
+            className="p-2 -ml-2 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <div className="flex-1 flex items-center justify-center gap-2">
+            <img src="/logos/chat-icon-simon.svg" alt="Simon" className="w-8 h-8" />
+            <span className="font-semibold text-lg">Simon</span>
           </div>
-          <span className="font-medium text-lg">Simon</span>
+          <div className="w-9" /> {/* Spacer for centering */}
         </div>
-        <div className="w-9" /> {/* Spacer for centering */}
-      </div>
 
-      {/* Category Badge */}
-      <div className="bg-white/90 backdrop-blur-sm px-4 py-2 flex justify-center border-b border-gray-200">
-        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700">
-          {title}
-        </span>
-      </div>
+        {/* Category Title */}
+        <div className="px-4 py-3 border-b border-gray-100">
+          <h2 className="text-gray-500 text-sm">2. {title}</h2>
+        </div>
 
-      {/* Chat Content */}
-      <div className="flex-1 overflow-y-auto px-4 py-6 bg-white/50 backdrop-blur-sm">
-        <div className="max-w-3xl mx-auto space-y-4">
+        {/* Content */}
+        <div className="flex-1 overflow-y-auto">
+        <div className="p-4 space-y-4">
           {/* Intro Message */}
-          <div className="bg-white rounded-lg p-4 shadow-sm">
-            <p className="text-gray-700 whitespace-pre-line">{introMessage}</p>
+          <div className="mb-6">
+            <p className="text-gray-900 text-base leading-relaxed">
+              Steve, I&apos;m happy to help you!
+            </p>
+            <p className="text-gray-900 text-base leading-relaxed mt-3">
+              The Renaissance Hotel has partnered with some great local restaurants to provide you in-room dining
+            </p>
           </div>
 
-          {/* Restaurant/Attraction Cards */}
-          {isInRoomDining && (
-            <div className="space-y-3">
-              {restaurantData.map((restaurant) => (
-                <RestaurantCard
-                  key={restaurant.id}
-                  restaurant={restaurant}
-                  onClick={() => handleItemClick(restaurant)}
-                />
-              ))}
-            </div>
-          )}
+          {/* Restaurant List */}
+          <div className="space-y-6">
+            {restaurantData.map((restaurant) => (
+              <div key={restaurant.id} className="space-y-2">
+                <h3 className="font-semibold text-lg text-gray-900">{restaurant.name}</h3>
+                <p className="text-gray-700 text-base leading-relaxed">{restaurant.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
 
-          {isNearbyAttractions && (
-            <div className="space-y-3">
-              {attractionData.map((attraction) => (
-                <AttractionCard
-                  key={attraction.id}
-                  attraction={attraction}
-                  onClick={() => handleItemClick(attraction)}
+        {/* Image Carousel */}
+        <div className="mt-8 px-4 pb-4">
+          <div className="relative">
+            <div className="overflow-hidden rounded-lg">
+              <div 
+                className="flex transition-transform duration-300 ease-in-out"
+                style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}
+              >
+                {carouselImages.map((image) => (
+                  <div key={image.id} className="w-full flex-shrink-0">
+                    <img 
+                      src={image.src} 
+                      alt={image.alt}
+                      className="w-full h-48 object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            {/* Carousel Navigation */}
+            <button
+              onClick={() => scrollCarousel('left')}
+              className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-1 shadow-md hover:bg-white transition-colors"
+            >
+              <ChevronLeft className="w-5 h-5 text-gray-700" />
+            </button>
+            <button
+              onClick={() => scrollCarousel('right')}
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-1 shadow-md hover:bg-white transition-colors"
+            >
+              <ChevronRight className="w-5 h-5 text-gray-700" />
+            </button>
+
+            {/* Carousel Indicators */}
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+              {carouselImages.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentImageIndex(index)}
+                  className={`w-1.5 h-1.5 rounded-full transition-colors ${
+                    index === currentImageIndex ? 'bg-white' : 'bg-white/50'
+                  }`}
                 />
               ))}
             </div>
-          )}
-          
-          <div ref={messagesEndRef} />
+          </div>
         </div>
       </div>
 
-      {/* Message Input */}
-      <MessageInput onSendMessage={handleSendMessage} isLoading={false} />
-
-      {/* Sliding Panel */}
-      <SlidePanel
-        isOpen={isPanelOpen}
-        onClose={() => setIsPanelOpen(false)}
-        item={selectedItem}
-      />
+        {/* Message Input */}
+        <MessageInput onSendMessage={handleSendMessage} isLoading={false} />
+      </div>
     </div>
   )
 }

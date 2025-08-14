@@ -143,16 +143,16 @@ export default function ChatInterface() {
   return (
     <div className="flex flex-col h-screen max-h-[844px] mx-auto max-w-[390px] w-full">
       {/* Messages */}
-      <div className="flex-1 bg-white mt-8 md:mt-12 rounded-t-3xl">
+      <div className="flex-1 bg-white mt-8 md:mt-12 mb-8 md:mb-12 rounded-3xl flex flex-col">
         {messages.length === 0 ? (
-          <div className="flex items-center justify-center min-h-full p-6">
+          <div className="flex-1 flex items-center justify-center p-6 overflow-y-auto">
             <div className="w-full max-w-md">
               <WelcomeMessage />
               <QuickSuggestions onSuggestionClick={handleSendMessage} />
             </div>
           </div>
         ) : (
-          <div className="p-6">
+          <div className="flex-1 p-6 overflow-y-auto">
             <div className="max-w-3xl mx-auto space-y-6">
               {messages.map((message) => (
                 <MessageBubble key={message.id} message={message} />
@@ -186,10 +186,10 @@ export default function ChatInterface() {
             </div>
           </div>
         )}
+        
+        {/* Input */}
+        <MessageInput onSendMessage={handleSendMessage} isLoading={isLoading} />
       </div>
-
-      {/* Input */}
-      <MessageInput onSendMessage={handleSendMessage} isLoading={isLoading} />
     </div>
   )
 }
