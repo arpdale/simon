@@ -108,7 +108,7 @@ export default function CategoryChatPage() {
           {/* Intro Message */}
           <div className="mb-6">
             <p className="text-gray-900 text-base leading-relaxed">
-              Steve, I'm happy to help you!
+              Steve, I&apos;m happy to help you!
             </p>
             <p className="text-gray-900 text-base leading-relaxed mt-3">
               The Renaissance Hotel has partnered with some great local restaurants to provide you in-room dining
