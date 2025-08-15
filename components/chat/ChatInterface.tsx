@@ -146,7 +146,7 @@ export default function ChatInterface() {
       {/* Content container with rounded corners and margin from top */}
       <div className="flex-1 bg-white mt-8 md:mt-12 rounded-t-3xl flex flex-col min-h-0">
         {messages.length === 0 ? (
-          <div className="flex-1 p-6 overflow-y-auto">
+          <div className="flex-1 p-6">
             <div className="w-full max-w-md mx-auto space-y-12">
               {/* Top Group: Name, Logo, Welcome Text */}
               <div className="pt-2">
@@ -179,7 +179,7 @@ export default function ChatInterface() {
                       <div className="chat-bubble chat-bubble-ai">
                         <div className="flex items-center space-x-3 mb-3">
                           <img 
-                            src="/logos/bowtie-bowtie-logo-black-bg.svg" 
+                            src="/logos/bowtie-logo-black-bg.svg" 
                             alt="Simon" 
                             className="w-7 h-7"
                           />
