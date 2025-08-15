@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import MessageInput from '@/components/chat/MessageInput'
+import SimonHeader from '@/components/SimonHeader'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface Restaurant {
@@ -81,30 +82,24 @@ export default function CategoryChatPage() {
   return (
     <div className="flex flex-col h-screen max-h-[844px] mx-auto max-w-[390px] w-full">
       {/* Content container with rounded corners and margin from top */}
-      <div className="flex-1 bg-white mt-8 md:mt-12 rounded-t-3xl flex flex-col">
+      <div className="flex-1 bg-white mt-8 md:mt-12 rounded-t-3xl flex flex-col min-h-0">
         {/* Header */}
-        <div className="flex items-center px-4 py-3 border-b border-gray-200">
-          <button
-            onClick={() => router.push('/')}
-            className="p-2 -ml-2 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <div className="flex-1 flex items-center justify-center gap-2">
-            <img src="/logos/chat-icon-simon.svg" alt="Simon" className="w-8 h-8" />
-            <span className="font-semibold text-lg">Simon</span>
-          </div>
-          <div className="w-9" /> {/* Spacer for centering */}
-        </div>
-
-        {/* Category Title */}
-        <div className="px-4 py-3 border-b border-gray-100">
-          <h2 className="text-gray-500 text-sm">2. {title}</h2>
-        </div>
+        <SimonHeader />
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto pb-20">
         <div className="p-4 space-y-4">
+          {/* User Query - Chat Bubble */}
+          <div className="flex justify-end mb-4">
+            <div className="bg-gray-200 flex flex-row gap-2 items-center justify-start px-4 py-2 rounded-[30px] max-w-[280px]">
+              <div className="flex-1 font-normal text-black text-lg text-right">
+                {title}
+              </div>
+              <div className="bg-white relative rounded-full w-8 h-8 border border-gray-400 border-opacity-50 flex items-center justify-center">
+                <span className="font-normal text-gray-600 text-sm">S</span>
+              </div>
+            </div>
+          </div>
           {/* Intro Message */}
           <div className="mb-6">
             <p className="text-gray-900 text-base leading-relaxed">
@@ -175,8 +170,10 @@ export default function CategoryChatPage() {
           </div>
         </div>
       </div>
+      </div>
 
-        {/* Message Input */}
+      {/* Message Input - Fixed to bottom */}
+      <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[390px] z-10">
         <MessageInput onSendMessage={handleSendMessage} isLoading={false} />
       </div>
     </div>

@@ -24,7 +24,7 @@ const promoData: PromoData[] = [
   },
   {
     id: 'transport',
-    title: 'Airport Transfer',
+    title: 'Need a ride?',
     description: 'Complimentary shuttle service to LAX every 30 minutes',
     buttonText: 'Schedule Ride',
     imageUrl: '/images/promo-shuttle.png',

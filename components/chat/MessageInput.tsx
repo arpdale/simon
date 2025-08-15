@@ -88,19 +88,21 @@ export default function MessageInput({ onSendMessage, isLoading }: MessageInputP
 
   return (
     <>
-      <div className="bg-white border-t border-gray-200">
+      <div className="bg-white">
         <div className="p-4">
-          <div className="flex items-center bg-gray-100 rounded-full border border-gray-300 p-1">
-            {/* Left Simon logo (non-clickable) */}
-            <div>
-              <img 
-                src="/logos/chat-icon-simon.svg" 
-                alt="Simon" 
-                className="w-10 h-10"
-              />
+          <div className="flex items-center bg-white rounded-full border border-gray-300 px-4 py-3">
+            {/* Left Simon logo */}
+            <div className="flex-shrink-0 mr-3">
+              <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center">
+                <img 
+                  src="/logos/bowtie-logo-white-bg.svg" 
+                  alt="Simon" 
+                  className="w-8 h-8"
+                />
+              </div>
             </div>
 
-            {/* Text input - clickable area for text entry */}
+            {/* Text input */}
             <form onSubmit={handleSubmit} className="flex-1">
               <input
                 ref={inputRef}
@@ -109,17 +111,17 @@ export default function MessageInput({ onSendMessage, isLoading }: MessageInputP
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Ask Simon anything"
-                className="w-full bg-transparent px-4 py-2 text-gray-900 placeholder-gray-400 focus:outline-none text-base"
+                className="w-full bg-transparent text-gray-900 placeholder-gray-400 focus:outline-none text-base"
                 disabled={isLoading || isListening}
               />
             </form>
 
-            {/* Right microphone button - always visible for voice recording */}
+            {/* Right microphone button */}
             <button
               type="button"
               onClick={toggleVoiceInput}
               disabled={isLoading}
-              className="flex-shrink-0 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors border border-gray-300"
+              className="flex-shrink-0 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-50 transition-colors ml-3"
             >
               <Mic className="w-5 h-5 text-gray-600" />
             </button>
