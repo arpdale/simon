@@ -17,6 +17,7 @@ export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [currentResponse, setCurrentResponse] = useState('')
+  const [showWindowShade, setShowWindowShade] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   // Auto-scroll to bottom
@@ -142,11 +143,92 @@ export default function ChatInterface() {
   }
 
   return (
-    <div className="flex flex-col h-screen max-h-[844px] mx-auto max-w-[390px] w-full">
-      {/* Content container with rounded corners and margin from top */}
-      <div className="flex-1 bg-white mt-8 md:mt-12 rounded-t-3xl flex flex-col min-h-0">
-        {messages.length === 0 ? (
-          <div className="flex-1 p-6">
+    <div className="relative flex flex-col h-screen max-h-[844px] mx-auto max-w-[390px] w-full overflow-hidden">
+      {/* Hotel Background (always present, behind everything) */}
+      <div className="absolute inset-0">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: "url('/images/ren-lax-mobile.png')"
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#66666699] to-[#000000]" />
+        
+        {/* Hotel Amenities Content (visible when shade is down) */}
+        <div className={`absolute inset-0 flex flex-col justify-center items-center text-white p-8 transition-opacity duration-500 ${
+          showWindowShade ? 'opacity-100' : 'opacity-0'
+        }`}>
+          <div className="text-center space-y-8 max-w-sm">
+            <div className="space-y-4">
+              <h1 className="text-3xl font-bold tracking-wide">Renaissance</h1>
+              <h2 className="text-xl font-light">Los Angeles Airport</h2>
+            </div>
+            
+            <div className="space-y-6">
+              <div className="space-y-3">
+                <h3 className="text-lg font-semibold">Hotel Amenities</h3>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div className="space-y-2">
+                    <p>• 24/7 Fitness Center</p>
+                    <p>• Business Center</p>
+                    <p>• Free WiFi</p>
+                    <p>• Concierge Service</p>
+                  </div>
+                  <div className="space-y-2">
+                    <p>• Airport Shuttle</p>
+                    <p>• Valet Parking</p>
+                    <p>• Room Service</p>
+                    <p>• Meeting Rooms</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                <h3 className="text-lg font-semibold">Dining & Entertainment</h3>
+                <div className="text-sm space-y-1">
+                  <p>• RestauRANT Bar + Grill</p>
+                  <p>• In-Room Dining</p>
+                  <p>• Lobby Lounge</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* White container that slides down */}
+      <div className={`absolute inset-0 flex flex-col transition-transform duration-500 ease-in-out ${
+        showWindowShade ? 'translate-y-[calc(100%-90px)]' : 'translate-y-0'
+      }`}>
+        {/* Clickable background area at top */}
+        <div 
+          className="h-8 md:h-12 cursor-pointer"
+          onClick={() => setShowWindowShade(true)}
+        />
+        
+        {/* Content container with rounded corners */}
+        <div className="flex-1 bg-white rounded-t-3xl flex flex-col min-h-0">
+          {/* Handle bar and logo - only show when retracted */}
+          {showWindowShade && (
+            <div 
+              className="flex flex-col items-center gap-2.5 px-6 py-3 cursor-pointer"
+              onClick={() => setShowWindowShade(false)}
+            >
+              <div className="w-[115px] h-1 bg-black rounded-sm" />
+              <div className="flex items-center gap-[5px]">
+                <img 
+                  src="/logos/bowtie-logo-black-bg.svg" 
+                  alt="Simon" 
+                  className="w-6 h-6"
+                />
+              </div>
+            </div>
+          )}
+          
+          {/* Main content area */}
+          <div className={`flex-1 ${showWindowShade ? 'hidden' : 'block'}`}>
+          {messages.length === 0 ? (
+            <div className="flex-1 p-6">
             <div className="w-full max-w-md mx-auto space-y-12">
               {/* Top Group: Name, Logo, Welcome Text */}
               <div className="pt-2">
@@ -155,7 +237,10 @@ export default function ChatInterface() {
               
               {/* Middle Group: How can I help + Quick Suggestions */}
               <div>
-                <QuickSuggestions onSuggestionClick={handleSendMessage} />
+                <QuickSuggestions 
+                  onSuggestionClick={handleSendMessage} 
+                  onHotelAmenitiesClick={() => setShowWindowShade(true)}
+                />
               </div>
               
               {/* Bottom Group: Promo Carousel */}
@@ -164,8 +249,8 @@ export default function ChatInterface() {
               </div>
             </div>
           </div>
-        ) : (
-          <div className="flex-1 p-6 overflow-y-auto">
+          ) : (
+            <div className="flex-1 p-6 overflow-y-auto">
             <div className="max-w-3xl mx-auto space-y-6">
               {messages.map((message) => (
                 <MessageBubble key={message.id} message={message} />
@@ -197,12 +282,17 @@ export default function ChatInterface() {
               
               <div ref={messagesEndRef} />
             </div>
+            </div>
+          )}
           </div>
-        )}
         
-        {/* Input */}
-        <MessageInput onSendMessage={handleSendMessage} isLoading={isLoading} />
+          {/* Input */}
+          <div className={showWindowShade ? 'hidden' : 'block'}>
+            <MessageInput onSendMessage={handleSendMessage} isLoading={isLoading} />
+          </div>
       </div>
+      
+    </div>
     </div>
   )
 }
