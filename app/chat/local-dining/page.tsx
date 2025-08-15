@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import MessageInput from '@/components/chat/MessageInput'
 import SimonHeader from '@/components/SimonHeader'
+import { restaurantStore } from '@/lib/restaurantStore'
 
 interface Restaurant {
   id: string
@@ -47,6 +48,17 @@ export default function LocalDiningPage() {
   }, [])
 
   const fetchLocalDining = async () => {
+    const query = "I'd like to know about local dining options"
+    
+    // Check cache first
+    const cached = restaurantStore.getCachedQuery(query)
+    if (cached) {
+      setResponse(cached)
+      setCurrentResponse('')
+      setIsLoading(false)
+      return
+    }
+
     setIsLoading(true)
     setCurrentResponse('')
 
@@ -57,7 +69,7 @@ export default function LocalDiningPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ 
-          query: "I'd like to know about local dining options near the hotel" 
+          query: query 
         }),
       })
 
@@ -84,6 +96,12 @@ export default function LocalDiningPage() {
               try {
                 const parsedResponse = JSON.parse(fullResponse)
                 setResponse(parsedResponse)
+                
+                // Cache the result
+                if (parsedResponse.restaurants) {
+                  restaurantStore.cacheQuery(query, parsedResponse.textResponse, parsedResponse.restaurants)
+                }
+                
                 setCurrentResponse('')
                 setIsLoading(false)
                 return

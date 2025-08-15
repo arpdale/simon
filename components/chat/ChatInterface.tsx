@@ -11,6 +11,7 @@ import WelcomeMessage from './WelcomeMessage'
 import WidgetContainer from '../widgets/WidgetContainer'
 import { detectAndParseWidgets } from '@/lib/widget-utils'
 import PromoCarousel from '../cards/PromoCarousel'
+import { preloadingService } from '@/lib/preloadingService'
 
 export default function ChatInterface() {
   const router = useRouter()
@@ -28,6 +29,14 @@ export default function ChatInterface() {
   useEffect(() => {
     scrollToBottom()
   }, [messages, currentResponse, isLoading])
+
+  // Preload data on component mount
+  useEffect(() => {
+    // Start preloading in the background
+    preloadingService.preloadAll().catch(error => {
+      console.warn('Background preloading failed:', error)
+    })
+  }, [])
 
   // Initialize without welcome message to show quick suggestions
   // useEffect(() => {
@@ -48,7 +57,7 @@ export default function ChatInterface() {
       return
     }
     if (lowerContent.includes('nearby attractions') || lowerContent.includes('what to do') || lowerContent.includes('attractions')) {
-      router.push('/chat/nearby-attractions')
+      router.push('/chat/attractions-test')
       return
     }
 
