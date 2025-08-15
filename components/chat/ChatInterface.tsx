@@ -10,6 +10,7 @@ import QuickSuggestions from './QuickSuggestions'
 import WelcomeMessage from './WelcomeMessage'
 import WidgetContainer from '../widgets/WidgetContainer'
 import { detectAndParseWidgets } from '@/lib/widget-utils'
+import PromoCarousel from '../cards/PromoCarousel'
 
 export default function ChatInterface() {
   const router = useRouter()
@@ -146,9 +147,10 @@ export default function ChatInterface() {
       <div className="flex-1 bg-white mt-8 md:mt-12 mb-8 md:mb-12 rounded-3xl flex flex-col">
         {messages.length === 0 ? (
           <div className="flex-1 flex items-center justify-center p-6 overflow-y-auto">
-            <div className="w-full max-w-md">
+            <div className="w-full max-w-md space-y-4">
               <WelcomeMessage />
               <QuickSuggestions onSuggestionClick={handleSendMessage} />
+              <PromoCarousel />
             </div>
           </div>
         ) : (
@@ -166,7 +168,7 @@ export default function ChatInterface() {
                       <div className="chat-bubble chat-bubble-ai">
                         <div className="flex items-center space-x-3 mb-3">
                           <img 
-                            src="/logos/bowtie-logo.svg" 
+                            src="/logos/bowtie-bowtie-logo-black-bg.svg" 
                             alt="Simon" 
                             className="w-7 h-7"
                           />
