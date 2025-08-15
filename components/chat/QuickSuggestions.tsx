@@ -19,18 +19,8 @@ export default function QuickSuggestions({ onSuggestionClick }: QuickSuggestions
   const suggestions: QuickSuggestion[] = [
     {
       icon: <Home className="w-5 h-5" />,
-      label: "What in-room dining options are available?",
+      label: "What options are available for dining in?",
       action: () => router.push('/chat/category/in-room-dining')
-    },
-    {
-      icon: <Building2 className="w-5 h-5" />,
-      label: "What hotel amenities do you offer?",
-      action: "What hotel amenities are available at the Renaissance Los Angeles Airport Hotel?"
-    },
-    {
-      icon: <MapPin className="w-5 h-5" />,
-      label: "Can you recommend nearby attractions?",
-      action: () => router.push('/chat/category/nearby-attractions')
     },
     {
       icon: <Utensils className="w-5 h-5" />,
@@ -38,9 +28,14 @@ export default function QuickSuggestions({ onSuggestionClick }: QuickSuggestions
       action: "Can you recommend the best local restaurants near the hotel?"
     },
     {
-      icon: <DollarSign className="w-5 h-5" />,
-      label: "I'd like to tip the staff",
-      action: "How can I tip the hotel staff?"
+      icon: <MapPin className="w-5 h-5" />,
+      label: "Can you recommend nearby attractions?",
+      action: () => router.push('/chat/category/nearby-attractions')
+    },
+    {
+      icon: <Building2 className="w-5 h-5" />,
+      label: "What hotel amenities do you offer?",
+      action: "What hotel amenities are available at the Renaissance Los Angeles Airport Hotel?"
     }
   ]
 
@@ -63,7 +58,7 @@ export default function QuickSuggestions({ onSuggestionClick }: QuickSuggestions
             </span>
             <button
               onClick={() => handleClick(suggestion)}
-              className="flex-1 text-left px-6 py-3 rounded-full border border-gray-300 hover:border-gray-400 hover:bg-gray-50 transition-all text-sm text-gray-700"
+              className="flex-1 text-left px-4 py-3 rounded-full border border-gray-300 hover:border-gray-400 hover:bg-gray-50 transition-all text-sm text-gray-700"
             >
               {suggestion.label}
             </button>
