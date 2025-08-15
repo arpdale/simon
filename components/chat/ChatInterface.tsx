@@ -159,6 +159,15 @@ export default function ChatInterface() {
           showWindowShade ? 'opacity-100' : 'opacity-0'
         }`}>
           <div className="text-center space-y-8 max-w-sm">
+            {/* White bowtie logo at top */}
+            <div className="flex justify-center mb-4">
+              <img 
+                src="/logos/bowtie-logo-white-bg.svg" 
+                alt="Simon" 
+                className="w-16 h-16"
+              />
+            </div>
+            
             <div className="space-y-4">
               <h1 className="text-3xl font-bold tracking-wide">Renaissance</h1>
               <h2 className="text-xl font-light">Los Angeles Airport</h2>

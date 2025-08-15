@@ -64,7 +64,7 @@ Remember: Your entire response must be valid JSON that can be parsed. Do not inc
                 setting: "Historic wooden pier extending into the Pacific Ocean with colorful carnival rides, vintage arcade games, and bustling boardwalk atmosphere. The sound of waves mixes with carnival music and laughter.",
                 mustTry: "Ride the historic 1922 carousel, experience the Pacific Wheel Ferris wheel with ocean views, try carnival games, and explore the Santa Monica Pier Aquarium beneath the pier.",
                 experience: "A quintessential LA experience where vintage charm meets modern entertainment. Street performers, ocean breezes, and stunning sunsets create magical moments for visitors of all ages.",
-                imageUrl: "/images/attraction-placeholder.jpg",
+                imageUrl: "https://picsum.photos/seed/santamonica/800/600",
                 address: "200 Santa Monica Pier, Santa Monica, CA 90401",
                 website: "https://santamonicapier.org",
                 phone: "(310) 458-8900"
@@ -80,7 +80,7 @@ Remember: Your entire response must be valid JSON that can be parsed. Do not inc
                 setting: "Modernist campus perched atop the Santa Monica Mountains with pristine white travertine buildings, meticulously manicured gardens, and sweeping views from the Pacific to downtown LA.",
                 mustTry: "Explore the Central Garden's living sculpture, view European paintings and sculptures, experience the architecture tour, and enjoy sunset views from the outdoor terraces.",
                 experience: "A world-class cultural destination that combines artistic masterpieces with architectural innovation. The outdoor spaces and city views create an inspiring atmosphere for art lovers and casual visitors alike.",
-                imageUrl: "/images/attraction-placeholder.jpg",
+                imageUrl: "https://picsum.photos/seed/getty/800/600",
                 address: "1200 Getty Center Dr, Los Angeles, CA 90049",
                 website: "https://getty.edu",
                 phone: "(310) 440-7300"
@@ -96,7 +96,7 @@ Remember: Your entire response must be valid JSON that can be parsed. Do not inc
                 setting: "Eclectic beachfront boardwalk buzzing with street performers, artists, and colorful characters. Wide sandy beach meets a carnival-like atmosphere of shops, cafes, and the famous Muscle Beach outdoor gym.",
                 mustTry: "Watch bodybuilders at Muscle Beach, browse Venice Beach Boardwalk's unique shops and street art, skate or bike along the beach path, and catch street performances throughout the day.",
                 experience: "An authentic slice of California counterculture where anything goes. The artistic energy, diverse community, and free-spirited atmosphere create an unforgettable LA experience that's both entertaining and inspiring.",
-                imageUrl: "/images/attraction-placeholder.jpg",
+                imageUrl: "https://picsum.photos/seed/venice/800/600",
                 address: "Venice Beach, CA 90291",
                 website: "https://venicebeach.com",
                 phone: "(310) 399-2775"

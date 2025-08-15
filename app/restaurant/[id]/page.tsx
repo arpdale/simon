@@ -4,23 +4,8 @@ import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import SimonHeader from '@/components/SimonHeader'
 import { X, Star } from 'lucide-react'
+import { restaurantStore, Restaurant } from '@/lib/restaurantStore'
 
-interface Restaurant {
-  id: string
-  name: string
-  cuisine: string
-  rating: number
-  priceLevel: string
-  description: string
-  detailedDescription?: string
-  setting?: string
-  mustTry?: string
-  experience?: string
-  imageUrl: string
-  address?: string
-  phone?: string
-  website?: string
-}
 
 export default function RestaurantDetailsPage() {
   const params = useParams()
@@ -34,8 +19,18 @@ export default function RestaurantDetailsPage() {
   }, [restaurantId])
 
   const fetchRestaurantDetails = async () => {
+    setIsLoading(true)
+    
+    // First check if restaurant is in store
+    const storedRestaurant = restaurantStore.getRestaurant(restaurantId)
+    if (storedRestaurant) {
+      setRestaurant(storedRestaurant)
+      setIsLoading(false)
+      return
+    }
+
+    // Fallback to API call
     try {
-      // For now, we'll fetch from the local dining API and find the matching restaurant
       const response = await fetch('/api/chat/local-dining', {
         method: 'POST',
         headers: {
@@ -100,14 +95,15 @@ export default function RestaurantDetailsPage() {
       <div className="flex flex-col h-screen max-h-[844px] mx-auto max-w-[390px] w-full">
         <div className="flex-1 bg-white mt-8 md:mt-12 rounded-t-3xl flex flex-col min-h-0">
           <SimonHeader />
-          <div className="flex-1 flex items-center justify-center">
-            <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center animate-spin">
+          <div className="absolute top-1/2 left-0 right-0 transform -translate-y-1/2 flex flex-col items-center w-full px-4">
+            <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center animate-spin-cw-ccw">
               <img 
                 src="/logos/bowtie-logo-white-bg.svg" 
                 alt="Loading..." 
                 className="w-12 h-12"
               />
             </div>
+            <p className="text-gray-600 text-sm mt-4 text-center whitespace-nowrap">Loading details...</p>
           </div>
         </div>
       </div>

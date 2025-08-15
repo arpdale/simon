@@ -82,6 +82,19 @@ module.exports = {
       spacing: {
         'touch': '44px', // Minimum touch target
       },
+      animation: {
+        'spin-alternating': 'spin-cw 2s ease-in-out infinite, spin-ccw 2s ease-in-out 2s infinite',
+        'spin-cw-ccw': 'spin-cw-ccw 3s ease-in-out infinite',
+      },
+      keyframes: {
+        'spin-cw-ccw': {
+          '0%': { transform: 'rotate(0deg)' },
+          '45%': { transform: 'rotate(360deg)' },
+          '50%': { transform: 'rotate(360deg)' },
+          '95%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(0deg)' },
+        },
+      },
     },
   },
   plugins: [],
