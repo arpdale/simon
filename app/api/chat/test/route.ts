@@ -31,7 +31,7 @@ Your response MUST be valid JSON in this exact format:
 }
 
 Guidelines:
-- Always include 4-6 restaurants near LAX/Los Angeles area that match the user's specific request
+- Always include exactly 4-6 restaurants near LAX/Los Angeles area that match the user's specific request
 - Adapt recommendations based on user preferences (high-end vs casual, family-friendly vs romantic, etc.)
 - Include diverse cuisine types (Japanese, French, American, etc.)
 - Ratings should be between 4.5-4.9
@@ -94,89 +94,91 @@ Remember: Your entire response must be valid JSON that can be parsed. Do not inc
         } catch (error) {
           console.error('Test API error:', error)
           
-          // Fall back to mock data if API fails - adapt based on query
+          // Clean fallback data
           const isLowKey = query.toLowerCase().includes('low-key') || query.toLowerCase().includes('casual') || query.toLowerCase().includes('family');
-          const mockResponse = {
-            textResponse: isLowKey 
-              ? "Steve, I completely understand! Let me suggest some fantastic low-key, family-friendly spots that still offer amazing food without the fuss."
-              : "Steve, I'm happy to help you! The Renaissance Los Angeles Airport Hotel has partnered with some great local restaurants to provide you excellent dining options.",
-            restaurants: isLowKey ? [
+          
+          const mockResponse = isLowKey ? {
+            textResponse: "I understand! Here are some fantastic low-key, family-friendly spots with amazing food.",
+            restaurants: [
               {
-                id: "guelaguetza",
-                name: "Guelaguetza",
-                cuisine: "Mexican",
-                rating: 4.6,
-                priceLevel: "$$",
-                description: "Family-run Oaxacan restaurant with authentic moles and warm atmosphere. Kids love the colorful setting! →",
-                detailedDescription: "This beloved family-owned restaurant brings authentic Oaxacan cuisine to Los Angeles with rich moles, traditional mezcals, and vibrant atmosphere that welcomes families.",
-                setting: "Colorful, festive atmosphere with traditional Mexican décor, hand-painted murals, and the sounds of live mariachi music on weekends. The space feels like a warm embrace from Mexico.",
-                mustTry: "The famous seven-mole sampler, kid-friendly quesadillas, Chiles Rellenos, and traditional horchata drinks.",
-                experience: "A true cultural experience where generations of the Campos family share their Oaxacan heritage through food. The welcoming atmosphere makes it perfect for families exploring new flavors together.",
-                imageUrl: "https://picsum.photos/seed/guelaguetza/800/600",
-                address: "3014 W Olympic Blvd, Los Angeles, CA 90006",
-                phone: "(213) 427-0601",
-                website: "https://www.guelaguetza.com"
-              },
-              {
-                id: "langer-deli",
-                name: "Langer's Delicatessen",
-                cuisine: "Jewish Deli",
-                rating: 4.5,
-                priceLevel: "$$",
-                description: "Legendary family deli serving massive pastrami sandwiches since 1947. No-frills, authentic experience! →",
-                detailedDescription: "This legendary family deli has been serving the best pastrami in LA since 1947, maintaining old-school traditions with generous portions and friendly service.",
-                setting: "Classic deli atmosphere with vintage booths, black-and-white photos, and the constant bustle of a neighborhood institution. It's unpretentious and welcoming to all.",
-                mustTry: "The famous #19 Hot Pastrami sandwich (hand-carved and perfectly spiced), matzo ball soup, and classic deli pickles.",
-                experience: "Step back in time at this authentic LA institution where three generations have perfected the art of deli dining. It's casual, kid-friendly, and delivers on every nostalgic expectation.",
-                imageUrl: "https://picsum.photos/seed/langers/800/600",
-                address: "704 S Alvarado St, Los Angeles, CA 90057",
-                phone: "(213) 483-8050",
-                website: "https://langersdeli.com"
-              },
-              {
-                id: "guelaguetza-airport",
+                id: "inn-out",
                 name: "In-N-Out Burger",
                 cuisine: "American",
                 rating: 4.4,
                 priceLevel: "$",
-                description: "California's beloved burger chain with fresh ingredients and secret menu. Always a family hit! →",
-                detailedDescription: "California's most beloved burger chain serves fresh, never-frozen burgers with a cult following and secret menu that locals love to share.",
-                setting: "Clean, retro-style fast-casual restaurant with red-and-white checkered floors and palm tree murals. The atmosphere is upbeat and family-friendly.",
-                mustTry: "Double-Double burger, Animal Style fries (from the secret menu), chocolate shake, and the famous spread sauce.",
-                experience: "A true California experience that's perfect for families wanting quality fast food. The fresh ingredients and reasonable prices make it a local favorite that visitors quickly understand.",
+                description: "California beloved burger chain with fresh ingredients and secret menu.",
+                detailedDescription: "California most beloved burger chain serves fresh never-frozen burgers.",
+                setting: "Clean retro-style fast-casual restaurant with red-and-white checkered floors.",
+                mustTry: "Double-Double burger, Animal Style fries, and chocolate shake.",
+                experience: "A true California experience perfect for families.",
                 imageUrl: "https://picsum.photos/seed/innout/800/600",
                 address: "9149 S Sepulveda Blvd, Los Angeles, CA 90045",
                 phone: "(800) 786-1000",
                 website: "https://in-n-out.com"
               },
               {
-                id: "HomeRoom",
+                id: "langers",
+                name: "Langers Delicatessen",
+                cuisine: "Jewish Deli",
+                rating: 4.5,
+                priceLevel: "$$",
+                description: "Legendary family deli serving massive pastrami sandwiches since 1947.",
+                detailedDescription: "This legendary family deli has been serving the best pastrami in LA since 1947.",
+                setting: "Classic deli atmosphere with vintage booths and black-and-white photos.",
+                mustTry: "The famous Hot Pastrami sandwich and matzo ball soup.",
+                experience: "An authentic LA institution where three generations have perfected deli dining.",
+                imageUrl: "https://picsum.photos/seed/langers/800/600",
+                address: "704 S Alvarado St, Los Angeles, CA 90057",
+                phone: "(213) 483-8050",
+                website: "https://langersdeli.com"
+              },
+              {
+                id: "guelaguetza",
+                name: "Guelaguetza",
+                cuisine: "Mexican",
+                rating: 4.6,
+                priceLevel: "$$",
+                description: "Family-run Oaxacan restaurant with authentic moles and warm atmosphere.",
+                detailedDescription: "This beloved family-owned restaurant brings authentic Oaxacan cuisine to Los Angeles.",
+                setting: "Colorful, festive atmosphere with traditional Mexican decor and live mariachi music.",
+                mustTry: "The famous seven-mole sampler and traditional horchata drinks.",
+                experience: "A true cultural experience where generations share their Oaxacan heritage through food.",
+                imageUrl: "https://picsum.photos/seed/guelaguetza/800/600",
+                address: "3014 W Olympic Blvd, Los Angeles, CA 90006",
+                phone: "(213) 427-0601",
+                website: "https://www.guelaguetza.com"
+              },
+              {
+                id: "homeroom",
                 name: "HomeRoom",
                 cuisine: "Comfort Food",
                 rating: 4.3,
                 priceLevel: "$$",
-                description: "Mac and cheese specialists with creative combinations. Comfort food paradise for kids and adults! →",
-                detailedDescription: "This cozy spot specializes in elevated mac and cheese with creative combinations that turn comfort food into an art form, perfect for families.",
-                setting: "Warm, homey atmosphere with communal tables and a kitchen-like feel. The casual setting encourages families to relax and enjoy comfort food together.",
-                mustTry: "The Classic mac and cheese, BBQ Pork mac, Truffle mac (for adults), and their famous mac and cheese grilled cheese sandwich.",
-                experience: "Pure comfort food bliss where families can indulge in elevated mac and cheese creations. It's the kind of place where kids and parents are equally excited about the menu.",
+                description: "Mac and cheese specialists with creative combinations perfect for families.",
+                detailedDescription: "This cozy spot specializes in elevated mac and cheese with creative combinations.",
+                setting: "Warm, homey atmosphere with communal tables and a kitchen-like feel.",
+                mustTry: "The Classic mac and cheese and their famous grilled cheese sandwich.",
+                experience: "Pure comfort food bliss where families can indulge in elevated mac and cheese.",
                 imageUrl: "https://picsum.photos/seed/homeroom/800/600",
                 address: "1720 Telegraph Ave, Oakland, CA 94612",
                 phone: "(510) 251-0000",
                 website: "https://homeroom510.com"
               }
-            ] : [
+            ]
+          } : {
+            textResponse: "I am happy to help you! Here are some excellent dining options.",
+            restaurants: [
               {
                 id: "nobu-malibu",
                 name: "Nobu Malibu",
                 cuisine: "Japanese-Peruvian Fusion",
                 rating: 4.9,
                 priceLevel: "$$$$",
-                description: "Incredible Japanese fusion with breathtaking oceanfront views. Perfect for special occasions. →",
-                detailedDescription: "Celebrity haven perched directly above Carbon Beach with breathtaking oceanfront views. Chef Nobu Matsuhisa's legendary fusion cuisine meets California beach luxury in this sleek, modern Japanese sanctuary.",
-                setting: "Expansive ocean terrace with private dining cabanas and dramatic Pacific sunset views. Floor-to-ceiling windows and natural timber create sophisticated minimalism with maximum wow factor.",
-                mustTry: "The legendary Black Cod Miso (Nobu's signature masterpiece), Rock Shrimp Tempura, Yellowtail Sashimi with Jalapeño, and Malibu-exclusive dishes like Live Sweet Shrimp.",
-                experience: "Where A-listers come to dine on world-class Japanese cuisine while watching waves crash below. This is one of LA's most sought-after reservations – pure dining perfection where sophisticated flavors meet unparalleled ocean views.",
+                description: "Incredible Japanese fusion with breathtaking oceanfront views.",
+                detailedDescription: "Celebrity haven perched above Carbon Beach with oceanfront views.",
+                setting: "Expansive ocean terrace with private dining cabanas and Pacific sunset views.",
+                mustTry: "The legendary Black Cod Miso and Rock Shrimp Tempura.",
+                experience: "Where celebrities dine on world-class Japanese cuisine while watching waves.",
                 imageUrl: "/images/nobu-oceanview.jpg",
                 address: "22706 Pacific Coast Hwy, Malibu, CA 90265",
                 phone: "(310) 317-9140",
@@ -188,31 +190,15 @@ Remember: Your entire response must be valid JSON that can be parsed. Do not inc
                 cuisine: "Modern French",
                 rating: 4.7,
                 priceLevel: "$$$$",
-                description: "Housed in a stunning historic building, offering French cuisine in a romantic atmosphere. Their pastries are legendary! →",
-                detailedDescription: "Housed in a stunning historic 1928 Gothic-style building, République transforms from a bustling daytime café to an elegant French dining destination by night.",
-                setting: "Soaring cathedral ceilings with exposed brick and dramatic archways create an intimate yet grand atmosphere. The space buzzes with energy during brunch and becomes romantically lit for dinner service.",
-                mustTry: "Chef Walter Manzke sophisticated French-California pastries at breakfast, Duck Confit, and the legendary weekend brunch spread with house-made charcuterie.",
-                experience: "A true LA institution where impeccable French technique meets California sensibility. The historic architecture alone is worth the visit, but the exceptional cuisine keeps locals and visitors returning.",
-                imageUrl: "/images/republique-interior.jpg",
+                description: "Housed in a stunning historic building offering French cuisine in romantic atmosphere.",
+                detailedDescription: "Housed in a stunning historic 1928 Gothic-style building with French cuisine.",
+                setting: "Soaring cathedral ceilings with exposed brick and dramatic archways.",
+                mustTry: "Chef Walter Manzke sophisticated French-California pastries and Duck Confit.",
+                experience: "A true LA institution where impeccable French technique meets California sensibility.",
+                imageUrl: "https://picsum.photos/seed/republique/800/600",
                 address: "624 S La Brea Ave, Los Angeles, CA 90036",
                 phone: "(310) 362-6115",
                 website: "https://republiquela.com"
-              },
-              {
-                id: "guelaguetza",
-                name: "Guelaguetza",
-                cuisine: "Mexican",
-                rating: 4.6,
-                priceLevel: "$$$",
-                description: "Authentic Oaxacan cuisine with rich moles, traditional mezcals, and vibrant atmosphere. Weekend mariachi performances! →",
-                detailedDescription: "This beloved family-owned restaurant brings authentic Oaxacan cuisine to Los Angeles with rich moles, traditional mezcals, and vibrant atmosphere.",
-                setting: "Colorful, festive atmosphere with traditional Mexican décor, hand-painted murals, and the sounds of live mariachi music on weekends. The space feels like a warm embrace from Mexico.",
-                mustTry: "The famous seven-mole sampler showcasing complex Oaxacan flavors, Tasajo (dried beef), Chiles Rellenos, and traditional mezcal cocktails made with authentic spirits.",
-                experience: "A true cultural experience where generations of the Campos family share their Oaxacan heritage through food. Weekend mariachi performances create an unforgettable celebration of Mexican tradition.",
-                imageUrl: "https://picsum.photos/seed/guelaguetza/800/600",
-                address: "3014 W Olympic Blvd, Los Angeles, CA 90006",
-                phone: "(213) 427-0601",
-                website: "https://www.guelaguetza.com"
               },
               {
                 id: "bestia",
@@ -220,11 +206,11 @@ Remember: Your entire response must be valid JSON that can be parsed. Do not inc
                 cuisine: "Italian",
                 rating: 4.7,
                 priceLevel: "$$$$",
-                description: "Industrial-chic Italian restaurant famous for house-made charcuterie and wood-fired dishes. Always packed! →",
-                detailedDescription: "This industrial-chic Italian restaurant in the Arts District is famous for house-made charcuterie, wood-fired cooking, and inventive cocktails in a buzzing warehouse setting.",
-                setting: "Raw industrial warehouse space with exposed brick, steel beams, and an open kitchen. The energy is electric with packed communal tables and the constant sizzle of the wood-fired grill.",
-                mustTry: "Bone Marrow with herbs and toast, House-made Charcuterie board, Wood-fired Pizza, and the famous Spicy King Salmon Crudo. Do not miss their inventive cocktail program.",
-                experience: "LA dining at its most exciting - where exceptional Italian cooking meets Arts District edge. The communal atmosphere and open kitchen create an immersive dining theater that embodies modern LA food culture.",
+                description: "Industrial-chic Italian restaurant famous for house-made charcuterie and wood-fired dishes.",
+                detailedDescription: "This industrial-chic Italian restaurant in the Arts District is famous for house-made charcuterie.",
+                setting: "Raw industrial warehouse space with exposed brick and steel beams.",
+                mustTry: "Bone Marrow with herbs, House-made Charcuterie board, and Wood-fired Pizza.",
+                experience: "LA dining at its most exciting where exceptional Italian cooking meets Arts District edge.",
                 imageUrl: "https://picsum.photos/seed/bestia/800/600",
                 address: "2121 E 7th Pl, Los Angeles, CA 90021",
                 phone: "(213) 514-5724",
@@ -236,11 +222,11 @@ Remember: Your entire response must be valid JSON that can be parsed. Do not inc
                 cuisine: "Seafood",
                 rating: 4.8,
                 priceLevel: "$$$$",
-                description: "Michelin-starred seafood temple with impeccable service and stunning tasting menus. Ultimate special occasion dining. →",
-                detailedDescription: "This Michelin-starred seafood temple offers impeccable service and stunning tasting menus that showcase the finest sustainable seafood with French technique and California sensibility.",
-                setting: "Elegant dining room with warm wood tones, soft lighting, and sophisticated table settings. The atmosphere is refined yet welcoming, with seamless service that anticipates every need.",
-                mustTry: "Chef Michael Cimarusti's seasonal tasting menus featuring pristine Santa Barbara uni, diver scallops, and the signature caviar service. Wine pairings are exceptional.",
-                experience: "The pinnacle of fine dining in LA where every detail is perfected. From the amuse-bouche to the final petit four, Providence delivers a world-class culinary journey that justifies every star and accolade.",
+                description: "Michelin-starred seafood temple with impeccable service and stunning tasting menus.",
+                detailedDescription: "This Michelin-starred seafood temple offers impeccable service and stunning tasting menus.",
+                setting: "Elegant dining room with warm wood tones and sophisticated table settings.",
+                mustTry: "Chef Michael Cimarusti seasonal tasting menus featuring pristine Santa Barbara uni.",
+                experience: "The pinnacle of fine dining in LA where every detail is perfected.",
                 imageUrl: "https://picsum.photos/seed/providence/800/600",
                 address: "5955 Melrose Ave, Los Angeles, CA 90038",
                 phone: "(323) 460-4170",

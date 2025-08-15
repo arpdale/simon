@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import MessageInput from '@/components/chat/MessageInput'
 import SimonHeader from '@/components/SimonHeader'
+import { restaurantStore } from '@/lib/restaurantStore'
 
 interface Attraction {
   id: string
@@ -47,6 +48,18 @@ export default function NearbyAttractionsPage() {
   }, [])
 
   const fetchNearbyAttractions = async () => {
+    const query = "I'd like to know about nearby attractions and things to do"
+    
+    // Check cache first
+    const cached = restaurantStore.getCachedQuery(query)
+    if (cached) {
+      // Note: attractions uses same cache structure as restaurants
+      setResponse({ textResponse: cached.textResponse, attractions: cached.restaurants })
+      setCurrentResponse('')
+      setIsLoading(false)
+      return
+    }
+
     setIsLoading(true)
     setCurrentResponse('')
 
@@ -57,7 +70,7 @@ export default function NearbyAttractionsPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ 
-          query: "I'd like to know about nearby attractions and things to do" 
+          query: query 
         }),
       })
 
@@ -84,6 +97,12 @@ export default function NearbyAttractionsPage() {
               try {
                 const parsedResponse = JSON.parse(fullResponse)
                 setResponse(parsedResponse)
+                
+                // Cache the result (attractions stored as restaurants in cache)
+                if (parsedResponse.attractions) {
+                  restaurantStore.cacheQuery(query, parsedResponse.textResponse, parsedResponse.attractions)
+                }
+                
                 setCurrentResponse('')
                 setIsLoading(false)
                 return

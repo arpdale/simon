@@ -4,12 +4,12 @@ import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import MessageInput from '@/components/chat/MessageInput'
 import SimonHeader from '@/components/SimonHeader'
-import { restaurantStore, ConversationMessage } from '@/lib/restaurantStore'
+import { attractionsStore, AttractionsConversationMessage } from '@/lib/attractionsStore'
 
-interface Restaurant {
+interface Attraction {
   id: string
   name: string
-  cuisine: string
+  type: string
   rating: number
   priceLevel: string
   description: string
@@ -23,17 +23,17 @@ interface Restaurant {
   website?: string
 }
 
-interface LocalDiningResponse {
+interface AttractionsResponse {
   textResponse: string
-  restaurants: Restaurant[]
+  attractions: Attraction[]
 }
 
-export default function TestPage() {
+export default function AttractionsTestPage() {
   const router = useRouter()
-  const [response, setResponse] = useState<LocalDiningResponse | null>(null)
+  const [response, setResponse] = useState<AttractionsResponse | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [currentResponse, setCurrentResponse] = useState('')
-  const [messages, setMessages] = useState<ConversationMessage[]>([])
+  const [messages, setMessages] = useState<AttractionsConversationMessage[]>([])
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   // Auto-scroll to bottom
@@ -47,28 +47,28 @@ export default function TestPage() {
 
   useEffect(() => {
     // Load conversation history from store
-    const history = restaurantStore.getConversationHistory()
+    const history = attractionsStore.getConversationHistory()
     if (history.length > 0) {
       setMessages(history)
       setIsLoading(false)
     } else {
       // Only fetch once if no conversation history exists
       setIsLoading(true)
-      fetchLocalDining("I'd like restaurant recommendations for tonight")
+      fetchAttractions("I'd like to know about nearby attractions and things to do")
     }
   }, [])
 
-  const fetchLocalDining = async (query: string) => {
+  const fetchAttractions = async (query: string) => {
     setCurrentResponse('')
 
     // Check cache first
-    const cached = restaurantStore.getCachedQuery(query)
+    const cached = attractionsStore.getCachedQuery(query)
     if (cached) {
-      setResponse(cached)
+      setResponse({ textResponse: cached.textResponse, attractions: cached.attractions })
       setMessages(prev => [...prev, {
         type: 'ai',
         content: cached.textResponse,
-        restaurants: cached.restaurants,
+        attractions: cached.attractions,
         timestamp: Date.now()
       }])
       setIsLoading(false)
@@ -81,7 +81,7 @@ export default function TestPage() {
     }
 
     try {
-      const fetchResponse = await fetch('/api/chat/test', {
+      const fetchResponse = await fetch('/api/chat/attractions-test', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -116,19 +116,19 @@ export default function TestPage() {
                 setResponse(parsedResponse)
                 
                 // Cache the query result
-                if (parsedResponse.restaurants) {
-                  restaurantStore.cacheQuery(query, parsedResponse.textResponse, parsedResponse.restaurants)
+                if (parsedResponse.attractions) {
+                  attractionsStore.cacheQuery(query, parsedResponse.textResponse, parsedResponse.attractions)
                 }
                 
-                const aiMessage: ConversationMessage = {
+                const aiMessage: AttractionsConversationMessage = {
                   type: 'ai',
                   content: parsedResponse.textResponse,
-                  restaurants: parsedResponse.restaurants,
+                  attractions: parsedResponse.attractions,
                   timestamp: Date.now()
                 }
                 
                 setMessages(prev => [...prev, aiMessage])
-                restaurantStore.addConversationMessage(aiMessage)
+                attractionsStore.addConversationMessage(aiMessage)
                 
                 setCurrentResponse('')
                 setIsLoading(false)
@@ -151,7 +151,7 @@ export default function TestPage() {
         }
       }
     } catch (error) {
-      console.error('Test API error:', error)
+      console.error('Attractions test API error:', error)
       setIsLoading(false)
     }
   }
@@ -160,14 +160,14 @@ export default function TestPage() {
     if (!content.trim() || isLoading) return
 
     // Add user message to conversation
-    const userMessage: ConversationMessage = {
+    const userMessage: AttractionsConversationMessage = {
       type: 'user',
       content,
       timestamp: Date.now()
     }
     
     setMessages(prev => [...prev, userMessage])
-    restaurantStore.addConversationMessage(userMessage)
+    attractionsStore.addConversationMessage(userMessage)
     
     // Clear previous response and start loading
     setResponse(null)
@@ -177,7 +177,7 @@ export default function TestPage() {
     scrollToBottom()
     
     // Start new request
-    await fetchLocalDining(content)
+    await fetchAttractions(content)
   }
 
   return (
@@ -195,7 +195,7 @@ export default function TestPage() {
               <div className="flex justify-end mb-4">
                 <div className="bg-gray-200 flex flex-row gap-2 items-center justify-start px-4 py-2 rounded-[30px] max-w-[280px]">
                   <div className="flex-1 font-normal text-black text-lg text-right">
-                    Test LLM Integration
+                    Test Attractions Integration
                   </div>
                   <div className="bg-white relative rounded-full w-8 h-8 border border-gray-400 border-opacity-50 flex items-center justify-center">
                     <span className="font-normal text-gray-600 text-sm">S</span>
@@ -227,17 +227,17 @@ export default function TestPage() {
                       </p>
                     </div>
 
-                    {/* Restaurant Cards */}
-                    {message.restaurants && message.restaurants.length > 0 && (
+                    {/* Attraction Cards */}
+                    {message.attractions && message.attractions.length > 0 && (
                       <div className="overflow-x-auto mb-6 snap-x snap-mandatory scrollbar-hide">
                         <div className="flex gap-2 pb-2">
-                          {message.restaurants.map((restaurant, restaurantIndex) => (
-                            <div key={restaurantIndex} className="flex-shrink-0 w-[296px] snap-start">
+                          {message.attractions.map((attraction, attractionIndex) => (
+                            <div key={attractionIndex} className="flex-shrink-0 w-[296px] snap-start">
                               <div className="bg-white border border-gray-300 rounded-[10px] p-[5px] flex gap-3.5 items-center">
                                 <div className="w-24 h-24 rounded-md overflow-hidden bg-gray-100 flex-shrink-0">
                                   <img
-                                    src={restaurant.imageUrl}
-                                    alt={restaurant.name}
+                                    src={attraction.imageUrl}
+                                    alt={attraction.name}
                                     className="w-full h-full object-cover"
                                     onError={(e) => {
                                       const target = e.target as HTMLImageElement
@@ -249,14 +249,14 @@ export default function TestPage() {
                                   <div className="flex justify-between items-start">
                                     <div className="w-[122px]">
                                       <h3 className="font-semibold text-xl text-gray-800 truncate">
-                                        {restaurant.name}
+                                        {attraction.name}
                                       </h3>
                                       <p className="text-gray-600 text-base truncate">
-                                        {restaurant.cuisine}
+                                        {attraction.type}
                                       </p>
                                     </div>
                                     <div className="flex items-center gap-0.5">
-                                      <span className="text-sm text-gray-600">{restaurant.rating}</span>
+                                      <span className="text-sm text-gray-600">{attraction.rating}</span>
                                       <svg className="w-[18px] h-[18px]" viewBox="0 0 15 15" fill="none">
                                         <path d="M7.5 0L9.8175 4.69006L15 5.44677L11.25 9.09543L12.135 14.25L7.5 11.8151L2.865 14.25L3.75 9.09543L0 5.44677L5.1825 4.69006L7.5 0Z" fill="#C28E42"/>
                                       </svg>
@@ -264,13 +264,13 @@ export default function TestPage() {
                                   </div>
                                   <div className="flex justify-between items-center">
                                     <button 
-                                      onClick={() => router.push(`/restaurant/${restaurant.id}`)}
+                                      onClick={() => router.push(`/attraction/${attraction.id}`)}
                                       className="bg-black text-white px-3.5 py-1 rounded text-[15px] hover:bg-gray-800 transition-colors"
                                     >
                                       More Info
                                     </button>
                                     <span className="text-sm text-gray-600 w-9 text-right">
-                                      {restaurant.priceLevel}
+                                      {attraction.priceLevel}
                                     </span>
                                   </div>
                                 </div>
@@ -282,13 +282,13 @@ export default function TestPage() {
                     )}
 
                     {/* Detailed Descriptions */}
-                    {message.restaurants && message.restaurants.length > 0 && (
+                    {message.attractions && message.attractions.length > 0 && (
                       <div className="space-y-6">
-                        {message.restaurants.map((restaurant, restaurantIndex) => (
-                          <div key={restaurantIndex} className="space-y-2">
-                            <h3 className="font-semibold text-lg text-gray-900">{restaurant.name}</h3>
+                        {message.attractions.map((attraction, attractionIndex) => (
+                          <div key={attractionIndex} className="space-y-2">
+                            <h3 className="font-semibold text-lg text-gray-900">{attraction.name}</h3>
                             <p className="text-gray-700 text-base leading-relaxed">
-                              {restaurant.description} <span className="text-orange-600">→</span>
+                              {attraction.description} <span className="text-orange-600">→</span>
                             </p>
                           </div>
                         ))}
@@ -309,7 +309,7 @@ export default function TestPage() {
                     className="w-12 h-12"
                   />
                 </div>
-                <p className="text-gray-600 text-sm mt-4 text-center whitespace-nowrap">Finding restaurants...</p>
+                <p className="text-gray-600 text-sm mt-4 text-center whitespace-nowrap">Finding attractions...</p>
               </div>
             )}
 
