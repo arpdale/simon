@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { Home, Building2, MapPin, Utensils, DollarSign } from 'lucide-react'
+import { Home, Building2, MapPin, Utensils, DollarSign, TestTube } from 'lucide-react'
 
 interface QuickSuggestion {
   icon: React.ReactNode
@@ -37,6 +37,11 @@ export default function QuickSuggestions({ onSuggestionClick, onHotelAmenitiesCl
       icon: <Building2 className="w-5 h-5" />,
       label: "What hotel amenities do you offer?",
       action: () => onHotelAmenitiesClick?.()
+    },
+    {
+      icon: <TestTube className="w-5 h-5" />,
+      label: "Test",
+      action: () => router.push('/chat/test')
     }
   ]
 

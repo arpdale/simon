@@ -96,7 +96,7 @@ Remember: Your entire response must be valid JSON that can be parsed. Do not inc
                 setting: "Colorful, festive atmosphere with traditional Mexican décor, hand-painted murals, and the sounds of live mariachi music on weekends. The space feels like a warm embrace from Mexico.",
                 mustTry: "The famous seven-mole sampler showcasing complex Oaxacan flavors, Tasajo (dried beef), Chiles Rellenos, and traditional mezcal cocktails made with authentic spirits.",
                 experience: "A true cultural experience where generations of the Campos family share their Oaxacan heritage through food. Weekend mariachi performances create an unforgettable celebration of Mexican tradition.",
-                imageUrl: "/images/restaurant-placeholder.jpg",
+                imageUrl: "https://picsum.photos/seed/guelaguetza/800/600",
                 address: "3014 W Olympic Blvd, Los Angeles, CA 90006",
                 phone: "(213) 427-0601",
                 website: "https://www.guelaguetza.com"

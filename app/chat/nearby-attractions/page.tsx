@@ -137,15 +137,15 @@ export default function NearbyAttractionsPage() {
             </div>
             {/* Loading Animation */}
             {isLoading && !response && (
-              <div className="flex flex-col items-center justify-center py-12">
-                <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center animate-spin">
+              <div className="absolute top-1/2 left-0 right-0 transform -translate-y-1/2 flex flex-col items-center w-full px-4">
+                <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center animate-spin-cw-ccw">
                   <img 
                     src="/logos/bowtie-logo-white-bg.svg" 
                     alt="Loading..." 
                     className="w-12 h-12"
                   />
                 </div>
-                <p className="text-gray-600 text-sm mt-4">Discovering amazing attractions...</p>
+                <p className="text-gray-600 text-sm mt-4 text-center whitespace-nowrap">Discovering local attractions...</p>
               </div>
             )}
 
