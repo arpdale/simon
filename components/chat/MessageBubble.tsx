@@ -17,7 +17,7 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
         {!isUser && (
           <div className="flex items-center space-x-3 mb-3">
             <img 
-              src="/logos/bowtie-bowtie-logo-black-bg.svg" 
+              src="/logos/bowtie-logo-black-bg.svg" 
               alt="Simon" 
               className="w-7 h-7"
             />
