@@ -11,9 +11,10 @@ interface QuickSuggestion {
 
 interface QuickSuggestionsProps {
   onSuggestionClick?: (message: string) => void
+  onHotelAmenitiesClick?: () => void
 }
 
-export default function QuickSuggestions({ onSuggestionClick }: QuickSuggestionsProps) {
+export default function QuickSuggestions({ onSuggestionClick, onHotelAmenitiesClick }: QuickSuggestionsProps) {
   const router = useRouter()
 
   const suggestions: QuickSuggestion[] = [
@@ -35,7 +36,7 @@ export default function QuickSuggestions({ onSuggestionClick }: QuickSuggestions
     {
       icon: <Building2 className="w-5 h-5" />,
       label: "What hotel amenities do you offer?",
-      action: "What hotel amenities are available at the Renaissance Los Angeles Airport Hotel?"
+      action: () => onHotelAmenitiesClick?.()
     }
   ]
 
