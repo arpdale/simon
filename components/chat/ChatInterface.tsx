@@ -47,7 +47,7 @@ export default function ChatInterface() {
       return
     }
     if (lowerContent.includes('nearby attractions') || lowerContent.includes('what to do') || lowerContent.includes('attractions')) {
-      router.push('/chat/category/nearby-attractions')
+      router.push('/chat/nearby-attractions')
       return
     }
 
@@ -143,14 +143,25 @@ export default function ChatInterface() {
 
   return (
     <div className="flex flex-col h-screen max-h-[844px] mx-auto max-w-[390px] w-full">
-      {/* Messages */}
-      <div className="flex-1 bg-white mt-8 md:mt-12 mb-8 md:mb-12 rounded-3xl flex flex-col">
+      {/* Content container with rounded corners and margin from top */}
+      <div className="flex-1 bg-white mt-8 md:mt-12 rounded-t-3xl flex flex-col min-h-0">
         {messages.length === 0 ? (
-          <div className="flex-1 flex items-center justify-center p-6 overflow-y-auto">
-            <div className="w-full max-w-md space-y-4">
-              <WelcomeMessage />
-              <QuickSuggestions onSuggestionClick={handleSendMessage} />
-              <PromoCarousel />
+          <div className="flex-1 p-6 overflow-y-auto">
+            <div className="w-full max-w-md mx-auto space-y-12">
+              {/* Top Group: Name, Logo, Welcome Text */}
+              <div className="pt-2">
+                <WelcomeMessage />
+              </div>
+              
+              {/* Middle Group: How can I help + Quick Suggestions */}
+              <div>
+                <QuickSuggestions onSuggestionClick={handleSendMessage} />
+              </div>
+              
+              {/* Bottom Group: Promo Carousel */}
+              <div className="pb-2">
+                <PromoCarousel />
+              </div>
             </div>
           </div>
         ) : (

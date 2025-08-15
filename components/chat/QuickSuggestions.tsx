@@ -25,12 +25,12 @@ export default function QuickSuggestions({ onSuggestionClick }: QuickSuggestions
     {
       icon: <Utensils className="w-5 h-5" />,
       label: "Recommended local dining",
-      action: "Can you recommend the best local restaurants near the hotel?"
+      action: () => router.push('/chat/local-dining')
     },
     {
       icon: <MapPin className="w-5 h-5" />,
       label: "Can you recommend nearby attractions?",
-      action: () => router.push('/chat/category/nearby-attractions')
+      action: () => router.push('/chat/nearby-attractions')
     },
     {
       icon: <Building2 className="w-5 h-5" />,
@@ -48,9 +48,8 @@ export default function QuickSuggestions({ onSuggestionClick }: QuickSuggestions
   }
 
   return (
-    <div className="space-y-4 mt-8">
-      <p className="text-gray-900 font-medium">How can I help you?</p>
-      <div className="space-y-3">
+    <div className="space-y-3">
+      <h2 className="text-lg font-medium text-gray-900 text-center">How can I help you?</h2>
         {suggestions.map((suggestion, index) => (
           <div key={index} className="flex items-center gap-3">
             <span className="text-gray-600">
@@ -58,13 +57,12 @@ export default function QuickSuggestions({ onSuggestionClick }: QuickSuggestions
             </span>
             <button
               onClick={() => handleClick(suggestion)}
-              className="flex-1 text-left px-4 py-3 rounded-full border border-gray-300 hover:border-gray-400 hover:bg-gray-50 transition-all text-sm text-gray-700"
+              className="flex-1 text-left px-4 py-2 rounded-full border border-gray-300 hover:border-gray-400 hover:bg-gray-50 transition-all text-xs text-gray-700"
             >
               {suggestion.label}
             </button>
           </div>
         ))}
-      </div>
     </div>
   )
 }
